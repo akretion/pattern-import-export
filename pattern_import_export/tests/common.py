@@ -15,14 +15,6 @@ class ExportPatternCommon(JobMixin):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
-        cls.Exports = cls.env["ir.exports"]
-        cls.Company = cls.env["res.company"]
-        cls.Attachment = cls.env["ir.attachment"]
-        cls.ExportPatternWizard = cls.env["export.pattern.wizard"]
-        cls.Users = cls.env["res.users"]
-        cls.Partner = cls.env["res.partner"]
-        cls.PartnerIndustry = cls.env["res.partner.industry"]
-        cls.PartnerCategory = cls.env["res.partner.category"]
         cls.partner_1 = cls.env.ref("base.res_partner_1")
         cls.partner_2 = cls.env.ref("base.res_partner_2")
         cls.partner_3 = cls.env.ref("base.res_partner_3")
@@ -65,7 +57,7 @@ class ExportPatternCommon(JobMixin):
         @param record: recordset
         @return: ir.attachment
         """
-        return self.Attachment.search(
+        return self.env["ir.attachment"].search(
             [("res_model", "=", record._name), ("res_id", "=", record.id)], limit=1
         )
 
@@ -80,6 +72,6 @@ class ExportPatternCommon(JobMixin):
         def _read_import_data(self, datafile):
             return main_data
 
-        self.Exports._patch_method("_read_import_data", _read_import_data)
+        self.env["ir.exports"]._patch_method("_read_import_data", _read_import_data)
         yield
-        self.Exports._revert_method("_read_import_data")
+        self.env["ir.exports"]._revert_method("_read_import_data")

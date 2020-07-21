@@ -200,7 +200,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         @return:
         """
         values = {"Related Company/key|ID": self.partner_3.id}
-        expected_partner = self.Partner.search(
+        expected_partner = self.env["res.partner"].search(
             [("parent_id", "=", self.partner_3.id)], limit=1
         )
         expected_results = {"id": expected_partner.id}
