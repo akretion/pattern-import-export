@@ -154,7 +154,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
             {
                 "id": self.env.user.id,
                 "name": "System",
-                "company_ids|1|name": "Awesome company",
+                "company_ids|1|name": "Company 1 (export demo)",
             }
         ]
         results = self.ir_exports_m2m._get_data_to_export(self.env.user)
@@ -176,8 +176,8 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
             {
                 "id": self.env.user.id,
                 "name": "System",
-                "company_ids|1|name": "Awesome company",
-                "company_ids|2|name": "Bad company",
+                "company_ids|1|name": "Company 1 (export demo)",
+                "company_ids|2|name": "Company 2 (export demo)",
                 "company_ids|3|name": "YourCompany",
                 "company_ids|4|name": None,
                 "company_ids|5|name": None,
@@ -199,10 +199,10 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
                 "name": "Wood Corner",
                 "user_ids|1|id": self.user2.id,
                 "user_ids|1|name": "Wood Corner",
-                "user_ids|1|company_ids|1|name": "Awesome company",
+                "user_ids|1|company_ids|1|name": "Company 1 (export demo)",
                 "user_ids|2|id": self.user1.id,
                 "user_ids|2|name": "Wood Corner",
-                "user_ids|2|company_ids|1|name": "Awesome company",
+                "user_ids|2|company_ids|1|name": "Company 1 (export demo)",
                 "user_ids|3|id": None,
                 "user_ids|3|name": None,
                 "user_ids|3|company_ids|1|name": None,
@@ -260,13 +260,13 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
                 "name": "Wood Corner",
                 "user_ids|1|id": self.user2.id,
                 "user_ids|1|name": "Wood Corner",
-                "user_ids|1|company_ids|1|name": "Awesome company",
+                "user_ids|1|company_ids|1|name": "Company 1 (export demo)",
                 "user_ids|1|company_ids|2|name": "YourCompany",
                 "user_ids|1|company_ids|3|name": None,
                 "user_ids|2|id": self.user1.id,
                 "user_ids|2|name": "Wood Corner",
-                "user_ids|2|company_ids|1|name": "Awesome company",
-                "user_ids|2|company_ids|2|name": "Bad company",
+                "user_ids|2|company_ids|1|name": "Company 1 (export demo)",
+                "user_ids|2|company_ids|2|name": "Company 2 (export demo)",
                 "user_ids|2|company_ids|3|name": "YourCompany",
             },
             {
