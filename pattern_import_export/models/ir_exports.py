@@ -192,14 +192,12 @@ class IrExports(models.Model):
         Recursive
         @return: ir.exports.select.tab recordset
         """
-        export_fields = self.mapped("export_fields")
-        export_tabs = export_fields.mapped("select_tab_id")
-        sub_patterns = export_fields.filtered(
-            lambda l: l.is_one2many and l.pattern_export_id
-        ).mapped("pattern_export_id")
-        if sub_patterns:
-            export_tabs |= sub_patterns._get_select_tab()
-        return export_tabs
+        result = self.env["ir.exports.select.tab"]
+        for rec in self:
+            result += rec.export_fields.mapped("select_tab_id")
+            subpatterns = rec.export_fields.mapped(lambda r: r.pattern_export_id)
+            result += subpatterns._get_select_tab()
+        return result
 
     # Import part
 
