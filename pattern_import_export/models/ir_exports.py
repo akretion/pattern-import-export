@@ -162,7 +162,6 @@ class IrExports(models.Model):
                 attachments |= export._attachment_document(attachment_data)
         return attachments
 
-    @api.multi
     def _attachment_document(self, attachment_datas):
         """
         Attach given parameter (b64 encoded) to the current export.
