@@ -1,10 +1,9 @@
 # Copyright 2020 Akretion France (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-import base64
 from contextlib import contextmanager
 
 from odoo.tests import new_test_user
-
+from base64 import b64encode
 from odoo.addons.queue_job.tests.common import JobMixin
 
 from ..models.ir_exports import COLUMN_X2M_SEPARATOR
@@ -32,14 +31,41 @@ class ExportPatternCommon(JobMixin):
         cls.partner_cat1 = cls.env.ref("base.res_partner_category_3")
         cls.partner_cat2 = cls.env.ref("base.res_partner_category_11")
         cls.partner_catgs = cls.partner_cat1 | cls.partner_cat2
-        cls.user1 = cls.env.ref("pattern_import_export.demo_user_1")
-        cls.user2 = cls.env.ref("pattern_import_export.demo_user_2")
-        cls.user3 = cls.env.ref("pattern_import_export.demo_user_3")
+        cls.user1 = new_test_user(
+            cls.env, login="tonic", name=cls.partner_1.name, partner_id=cls.partner_1.id
+        )
+        cls.user2 = new_test_user(
+            cls.env, login="tazz", name=cls.partner_1.name, partner_id=cls.partner_1.id
+        )
+        cls.user3 = new_test_user(
+            cls.env,
+            login="tenebre",
+            name=cls.partner_2.name,
+            partner_id=cls.partner_2.id,
+        )
         cls.users = cls.user1 | cls.user2 | cls.user3
+        # generate xmlid
+        cls.users.export_data(["id"])
         cls.partners = cls.partner_1 | cls.partner_2 | cls.partner_3
         cls.company1 = cls.env.ref("base.main_company")
-        cls.company2 = cls.env.ref("pattern_import_export.demo_company_1")
-        cls.company3 = cls.env.ref("pattern_import_export.demo_company_2")
+        cls.company2 = cls.env["res.company"].create(
+            {
+                "name": "Company 1 (export demo)",
+                "user_ids": [
+                    (
+                        6,
+                        0,
+                        [cls.user1.id, cls.user2.id, cls.env.ref("base.user_admin").id],
+                    )
+                ],
+            }
+        )
+        cls.company3 = cls.env["res.company"].create(
+            {
+                "name": "Company 2 (export demo)",
+                "user_ids": [(6, 0, [cls.user1.id, cls.env.ref("base.user_admin").id])],
+            }
+        )
         cls.companies = cls.company1 | cls.company2 | cls.company3
         cls.separator = COLUMN_X2M_SEPARATOR
         cls.select_tab = cls.env.ref("pattern_import_export.demo_export_tab_1")
@@ -47,8 +73,12 @@ class ExportPatternCommon(JobMixin):
         cls.ir_exports = cls.env.ref("pattern_import_export.demo_export")
         cls.ir_exports_m2m = cls.env.ref("pattern_import_export.demo_export_m2m")
         cls.ir_exports_o2m = cls.env.ref("pattern_import_export.demo_export_o2m")
-        cls.empty_attachment = cls.env.ref(
-            "pattern_import_export.demo_empty_attachment"
+        cls.empty_attachment = cls.env["ir.attachment"].create(
+            {
+                "datas": b64encode(b"a"),
+                "datas_fname": "a_file_name",
+                "name": "a_file_name",
+            }
         )
 
     def _get_attachment(self, record):

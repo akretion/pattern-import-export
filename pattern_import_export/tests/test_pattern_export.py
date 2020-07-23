@@ -318,9 +318,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
                 "parent_id|country_id|code": None,
             },
         ]
-        self.env.ref("pattern_import_export.demo_export_line_2").write(
-            {"is_key": True}
-        )
+        self.env.ref("pattern_import_export.demo_export_line_2").write({"is_key": True})
         results = self.ir_exports._get_data_to_export(self.partners)
         for result, expected_result in zip(results, expected_results):
             self.assertDictEqual(expected_result, result)
@@ -328,7 +326,9 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
     def test_get_select_tab(self):
         """ tab_1 is in the simple export, tab_2 is in the m2m export """
         simple_export = self.env.ref("pattern_import_export.demo_export")
-        self.env.ref("pattern_import_export.demo_export_o2m_line_1").pattern_export_id = simple_export
+        self.env.ref(
+            "pattern_import_export.demo_export_o2m_line_1"
+        ).pattern_export_id = simple_export
         tabs = self.env.ref("pattern_import_export.demo_export_o2m")._get_select_tab()
         self.assertIn(self.env.ref("pattern_import_export.demo_export_tab_1"), tabs)
         self.assertIn(self.env.ref("pattern_import_export.demo_export_tab_2"), tabs)
