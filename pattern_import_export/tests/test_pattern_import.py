@@ -210,7 +210,7 @@ class TestPatternImport(ExportPatternCommon, SavepointCase):
         expected_results = {"id": expected_partner.id}
         self.ir_exports._import_replace_keys(values, self.ir_exports.model_id.model)
         self.assertDictEqual(expected_results, values)
-        
+
     def test_update_with_key(self):
         unique_name = str(uuid4())
         main_data = [{"login#key": self.user3.login, "name": unique_name}]

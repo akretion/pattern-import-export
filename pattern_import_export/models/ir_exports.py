@@ -195,7 +195,7 @@ class IrExports(models.Model):
             subpatterns = rec.export_fields.mapped(lambda r: r.pattern_export_id)
             result += subpatterns._get_select_tab()
         return result
-      
+
     # Import part
 
     @api.multi

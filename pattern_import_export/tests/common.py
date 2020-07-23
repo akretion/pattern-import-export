@@ -1,9 +1,10 @@
 # Copyright 2020 Akretion France (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+from base64 import b64encode
 from contextlib import contextmanager
 
 from odoo.tests import new_test_user
-from base64 import b64encode
+
 from odoo.addons.queue_job.tests.common import JobMixin
 
 from ..models.ir_exports import COLUMN_X2M_SEPARATOR
