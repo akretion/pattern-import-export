@@ -2,14 +2,20 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools import safe_eval
 
-from .ir_exports import COLUMN_X2M_SEPARATOR
+from odoo.addons.base_jsonify.models.ir_export import convert_dict, update_dict
+
+from _collections import OrderedDict
+
+from .common import COLUMN_X2M_SEPARATOR, IDENTIFIER_SUFFIX
 
 
 class IrExportsLine(models.Model):
     _inherit = "ir.exports.line"
 
-    select_tab_id = fields.Many2one("ir.exports.select.tab", string="Select tab")
+    filter_use = fields.Boolean(string="Use filter")
+    filter_id = fields.Many2one("ir.filters")
     is_key = fields.Boolean(
         default=False,
         help="Determine if this field is considered as key to update "
@@ -26,6 +32,14 @@ class IrExportsLine(models.Model):
         string="Related model",
         compute="_compute_related_level_field",
         store=True,
+    )
+    related_model_relation_type = fields.Selection(
+        selection=[
+            ("many2one", "many2one"),
+            ("many2many", "many2many"),
+            ("one2many", "one2many"),
+        ],
+        compute="_compute_related_level_field",
     )
     last_field_id = fields.Many2one(
         "ir.model.fields",
@@ -99,7 +113,8 @@ class IrExportsLine(models.Model):
                 "field4_id",
                 "number_occurence",
                 "pattern_export_id",
-                "select_tab_id",
+                "filter_id",
+                "filter_use",
             ]
             if not record.name:
                 record.required_fields = ""
@@ -112,13 +127,15 @@ class IrExportsLine(models.Model):
                 ftype = self.env[model]._fields[field].type
                 if ftype in ["many2one", "many2many"]:
                     level += 1
-                    hidden_fields.remove("select_tab_id")
+                    hidden_fields.remove("filter_use")
                 for idx in range(2, level + 1):
                     required.append("field{}_id".format(idx))
                 if ftype in ["one2many", "many2many"]:
                     required.append("number_occurence")
                 if ftype in "one2many":
                     required.append("pattern_export_id")
+                if record.filter_use:
+                    required.append("filter_id")
                 record.required_fields = ",".join(required)
                 hidden_fields = list(set(hidden_fields) - set(required))
                 record.hidden_fields = ",".join(hidden_fields)
@@ -170,6 +187,9 @@ class IrExportsLine(models.Model):
                         [("model", "=", related_comodel)], limit=1
                     )
                     export_line.related_model_id = comodel.id
+                    export_line.related_model_relation_type = (
+                        self.env[model]._fields[field].type
+                    )
                     export_line.level = level
                 fields = export_line.name.split("/")
                 if len(fields) > level:
@@ -205,7 +225,7 @@ class IrExportsLine(models.Model):
                 else:
                     header = record.field1_id.name
                 if record.is_key:
-                    header += "/key"
+                    header += IDENTIFIER_SUFFIX
                 headers.append(header)
             else:
                 last_relation_field = record["field{}_id".format(record.level)]
@@ -242,3 +262,67 @@ class IrExportsLine(models.Model):
                                 )
                             )
         return headers
+
+    def _get_tab_headers(self):
+        # TODO support arbitrary columns/attributes instead of
+        #  only name
+        self.ensure_one()
+        return [self.last_field_id.name]
+
+    def _format_tab_records(self, permitted_records):
+        # TODO support arbitrary columns/attributes instead of
+        #  only name
+        return [[record.name] for record in permitted_records]
+
+    def _get_tab_data(self):
+        """
+        :return: iterable of 3-tuples of format:
+        (name, headers, data, origin_col)
+        one tuple for each tab
+        name: sheet name
+        headers: list of strings, each element mapping to one header cell
+        data: list of lists, each element mapping to one row/cells
+        origin_col: position of the column on the main sheet
+        """
+        result = []
+        for itr, rec in enumerate(self, start=1):
+            if rec.related_model_relation_type not in ("many2many", "many2one"):
+                continue
+            permitted_records = []
+            model_name = rec.related_model_id.model
+            domain = (rec.filter_id and safe_eval(rec.filter_id.domain)) or []
+            records_matching_constraint = self.env[model_name].search(domain)
+            permitted_records += records_matching_constraint
+            data = rec._format_tab_records(permitted_records)
+            headers = rec._get_tab_headers()
+            # TODO find a solution for this. Tab name maximum length
+            #  is 31 characters on excel
+            name = rec.related_model_id.name + " (" + rec.filter_id.name + ")"
+            if len(name) > 31:
+                raise UserWarning(
+                    _(
+                        "Filter name %s is too long, "
+                        "maximum name length is 31 characters" % rec.filter_id.name
+                    )
+                )
+            result.append((name, headers, data, itr))
+        return result
+
+    def _get_dict_parser_for_pattern(self):
+        parser = OrderedDict()
+        for rec in self:
+            names = rec.name.split("/")
+            update_dict(parser, names)
+            if rec.pattern_export_id:
+                last_item = parser
+                last_field = names[0]
+                for field in names[:-1]:
+                    last_item = last_item[field]
+                    last_field = field
+                last_item[
+                    last_field
+                ] = rec.pattern_export_id.export_fields._get_dict_parser_for_pattern()
+        return parser
+
+    def _get_json_parser_for_pattern(self):
+        return convert_dict(self._get_dict_parser_for_pattern())
