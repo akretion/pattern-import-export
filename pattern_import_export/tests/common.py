@@ -51,7 +51,7 @@ class ExportPatternCommon(JobMixin):
         cls.company1 = cls.env.ref("base.main_company")
         cls.company2 = cls.env["res.company"].create(
             {
-                "name": "Company 1 (export demo)",
+                "name": "Awesome company",
                 "user_ids": [
                     (
                         6,
@@ -63,7 +63,7 @@ class ExportPatternCommon(JobMixin):
         )
         cls.company3 = cls.env["res.company"].create(
             {
-                "name": "Company 2 (export demo)",
+                "name": "Bad company",
                 "user_ids": [(6, 0, [cls.user1.id, cls.env.ref("base.user_admin").id])],
             }
         )

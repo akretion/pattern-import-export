@@ -150,7 +150,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
             {
                 "id": self.env.user.id,
                 "name": "System",
-                "company_ids|1|name": "Company 1 (export demo)",
+                "company_ids|1|name": "Awesome company",
             }
         ]
         results = self.ir_exports_m2m._get_data_to_export(self.env.user)
@@ -169,8 +169,8 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
             {
                 "id": self.env.user.id,
                 "name": "System",
-                "company_ids|1|name": "Company 1 (export demo)",
-                "company_ids|2|name": "Company 2 (export demo)",
+                "company_ids|1|name": "Awesome company",
+                "company_ids|2|name": "Bad company",
                 "company_ids|3|name": "YourCompany",
                 "company_ids|4|name": None,
                 "company_ids|5|name": None,
@@ -192,10 +192,10 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
                 "name": "Wood Corner",
                 "user_ids|1|id": self.user2.id,
                 "user_ids|1|name": "Wood Corner",
-                "user_ids|1|company_ids|1|name": "Company 1 (export demo)",
+                "user_ids|1|company_ids|1|name": "Awesome company",
                 "user_ids|2|id": self.user1.id,
                 "user_ids|2|name": "Wood Corner",
-                "user_ids|2|company_ids|1|name": "Company 1 (export demo)",
+                "user_ids|2|company_ids|1|name": "Awesome company",
                 "user_ids|3|id": None,
                 "user_ids|3|name": None,
                 "user_ids|3|company_ids|1|name": None,
@@ -247,13 +247,13 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
                 "name": "Wood Corner",
                 "user_ids|1|id": self.user2.id,
                 "user_ids|1|name": "Wood Corner",
-                "user_ids|1|company_ids|1|name": "Company 1 (export demo)",
+                "user_ids|1|company_ids|1|name": "Awesome company",
                 "user_ids|1|company_ids|2|name": "YourCompany",
                 "user_ids|1|company_ids|3|name": None,
                 "user_ids|2|id": self.user1.id,
                 "user_ids|2|name": "Wood Corner",
-                "user_ids|2|company_ids|1|name": "Company 1 (export demo)",
-                "user_ids|2|company_ids|2|name": "Company 2 (export demo)",
+                "user_ids|2|company_ids|1|name": "Awesome company",
+                "user_ids|2|company_ids|2|name": "Bad company",
                 "user_ids|2|company_ids|3|name": "YourCompany",
             },
             {
@@ -322,13 +322,3 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         results = self.ir_exports._get_data_to_export(self.partners)
         for result, expected_result in zip(results, expected_results):
             self.assertDictEqual(expected_result, result)
-
-    def test_get_select_tab(self):
-        """ tab_1 is in the simple export, tab_2 is in the m2m export """
-        simple_export = self.env.ref("pattern_import_export.demo_export")
-        self.env.ref(
-            "pattern_import_export.demo_export_o2m_line_1"
-        ).pattern_export_id = simple_export
-        tabs = self.env.ref("pattern_import_export.demo_export_o2m")._get_select_tab()
-        self.assertIn(self.env.ref("pattern_import_export.demo_export_tab_1"), tabs)
-        self.assertIn(self.env.ref("pattern_import_export.demo_export_tab_2"), tabs)
