@@ -61,7 +61,6 @@
             <field name="export_id" ref="demo_export"/>
             <field name="filter_id" ref="demo_filter_countries_2"/>
             <field name="filter_use" eval="True"/>
-            <field name="select_tab_id" ref="demo_export_tab_1"/>
         </record>
         <record id="demo_export_m2m_line_1" model="ir.exports.line">
             <field name="name">id</field>
