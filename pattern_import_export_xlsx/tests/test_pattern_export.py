@@ -55,7 +55,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         ]
         self._helper_check_headers(sheet, expected_headers)
 
-    def test_export_cell_vals(self):
+    def test_export_vals(self):
         wb = self._helper_get_resulting_wb(self.ir_exports, self.partners)
         sheet = wb["Partner list"]
         # TODO REWRITE WITH EXTID/ID CHOICE
@@ -68,6 +68,33 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
             [id3, "Gemini Furniture", "1128 Lunetta Street", "US"],
         ]
         self._helper_check_cell_values(sheet, expected_values)
+
+    def test_export_tabs(self):
+        wb = self._helper_get_resulting_wb(self.ir_exports, self.partners)
+        sheet_tab_2 = wb["Country (US, FR, BE)"]
+        sheet_tab_3 = wb["Country (European countries)"]
+        expected_values_tab_2 = [["BE"], ["FR"], ["US"], [CELL_VALUE_EMPTY]]
+        expected_values_tab_3 = [["BE"], ["FR"], ["DE"], ["ES"], [CELL_VALUE_EMPTY]]
+        self._helper_check_cell_values(sheet_tab_2, expected_values_tab_2)
+        self._helper_check_cell_values(sheet_tab_3, expected_values_tab_3)
+
+    def test_export_validators(self):
+        wb = self._helper_get_resulting_wb(self.ir_exports, self.partners)
+        sheet_base = wb["Partner list"]
+        self.assertEqual(
+            sheet_base.data_validations.dataValidation[0].formula1,
+            "='Country (US, FR, BE)'!$A$2:$A$4",
+        )
+        self.assertEqual(
+            str(sheet_base.data_validations.dataValidation[0].cells), "D2:D4"
+        )
+        self.assertEqual(
+            sheet_base.data_validations.dataValidation[1].formula1,
+            "='Country (European countries)'!$A$2:$A$5",
+        )
+        self.assertEqual(
+            str(sheet_base.data_validations.dataValidation[1].cells), "E2:E4"
+        )
 
     def test_export_m2m_headers(self):
         wb = self._helper_get_resulting_wb(self.ir_exports_m2m, self.users)
@@ -92,14 +119,11 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
     def test_export_m2m_tabs(self):
         wb = self._helper_get_resulting_wb(self.ir_exports_m2m, self.users)
         sheet_tab_2 = wb["Companies (Ignore one)"]
-        expected_values_tab_2 = [["Awesome company"], ["Bad company"], ["YourCompany"]]
-        self._helper_check_cell_values(sheet_tab_2, expected_values_tab_2)
-        # Make sure further rows empty
         expected_values_tab_2 = [
             ["Awesome company"],
             ["Bad company"],
             ["YourCompany"],
-            [None],
+            [CELL_VALUE_EMPTY],
         ]
         self._helper_check_cell_values(sheet_tab_2, expected_values_tab_2)
 
@@ -167,5 +191,3 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
             ],
         ]
         self._helper_check_cell_values(main_sheet, expected_values)
-
-    # TODO test validators, doable on openpyxl

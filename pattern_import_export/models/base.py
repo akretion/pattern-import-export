@@ -6,7 +6,7 @@ from odoo.exceptions import ValidationError
 
 from odoo.addons.queue_job.job import job
 
-from .ir_fields import IDENTIFIER_SURFIXE
+from .common import IDENTIFIER_SUFFIX
 
 
 class Base(models.AbstractModel):
@@ -52,8 +52,8 @@ class Base(models.AbstractModel):
         domain = []
 
         for key in list(res.keys()):
-            if key.endswith(IDENTIFIER_SURFIXE):
-                field_name = key.replace(IDENTIFIER_SURFIXE, "")
+            if key.endswith(IDENTIFIER_SUFFIX):
+                field_name = key.replace(IDENTIFIER_SUFFIX, "")
                 record = self.search([(field_name, "=", res[key])])
                 if len(record) > 1:
                     raise ValidationError(

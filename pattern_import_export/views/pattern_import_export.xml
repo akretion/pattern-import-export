@@ -45,7 +45,7 @@
                     'invisible': [('hidden_fields', 'ilike', 'pattern_export_id')]}"/>
                 <field name="related_model_id" invisible="1"/>
                 <field name="last_field_id" invisible="1"/>
-                <field name="filter_use" invisible="1"
+                <field name="option_create_tab" invisible="1"
                        attrs="{
                        'invisible': [('hidden_fields', 'ilike', 'filter_use')],
                        'readonly': [('hidden_fields', 'ilike', 'filter_use')]

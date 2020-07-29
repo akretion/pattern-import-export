@@ -54,13 +54,13 @@
             <field name="name">country_id/code</field>
             <field name="export_id" ref="demo_export"/>
             <field name="filter_id" ref="demo_filter_countries_1"/>
-            <field name="filter_use" eval="True"/>
+            <field name="option_create_tab" eval="True"/>
         </record>
         <record id="demo_export_line_5" model="ir.exports.line">
             <field name="name">parent_id/country_id/code</field>
             <field name="export_id" ref="demo_export"/>
             <field name="filter_id" ref="demo_filter_countries_2"/>
-            <field name="filter_use" eval="True"/>
+            <field name="option_create_tab" eval="True"/>
         </record>
         <record id="demo_export_m2m_line_1" model="ir.exports.line">
             <field name="name">id</field>
@@ -74,7 +74,7 @@
             <field name="name">company_ids/name</field>
             <field name="number_occurence">1</field>
             <field name="export_id" ref="demo_export_m2m"/>
-            <field name="filter_use" eval="True"/>
+            <field name="option_create_tab" eval="True"/>
             <field name="filter_id" ref="demo_filter_companies"/>
         </record>
         <record id="demo_export_o2m_line_1" model="ir.exports.line">

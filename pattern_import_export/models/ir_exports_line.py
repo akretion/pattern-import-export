@@ -14,7 +14,7 @@ from .common import COLUMN_X2M_SEPARATOR, IDENTIFIER_SUFFIX
 class IrExportsLine(models.Model):
     _inherit = "ir.exports.line"
 
-    filter_use = fields.Boolean(string="Use filter")
+    option_create_tab = fields.Boolean(string="Create tab")
     filter_id = fields.Many2one("ir.filters")
     is_key = fields.Boolean(
         default=False,
@@ -40,6 +40,7 @@ class IrExportsLine(models.Model):
             ("one2many", "one2many"),
         ],
         compute="_compute_related_level_field",
+        store=True,
     )
     last_field_id = fields.Many2one(
         "ir.model.fields",
@@ -114,7 +115,7 @@ class IrExportsLine(models.Model):
                 "number_occurence",
                 "pattern_export_id",
                 "filter_id",
-                "filter_use",
+                "option_create_tab",
             ]
             if not record.name:
                 record.required_fields = ""
@@ -127,14 +128,14 @@ class IrExportsLine(models.Model):
                 ftype = self.env[model]._fields[field].type
                 if ftype in ["many2one", "many2many"]:
                     level += 1
-                    hidden_fields.remove("filter_use")
+                    hidden_fields.remove("option_create_tab")
                 for idx in range(2, level + 1):
                     required.append("field{}_id".format(idx))
                 if ftype in ["one2many", "many2many"]:
                     required.append("number_occurence")
                 if ftype in "one2many":
                     required.append("pattern_export_id")
-                if record.filter_use:
+                if record.option_create_tab:
                     required.append("filter_id")
                 record.required_fields = ",".join(required)
                 hidden_fields = list(set(hidden_fields) - set(required))
@@ -264,19 +265,17 @@ class IrExportsLine(models.Model):
         return headers
 
     def _get_tab_headers(self):
-        # TODO support arbitrary columns/attributes instead of
-        #  only name
         self.ensure_one()
         return [self.last_field_id.name]
 
     def _format_tab_records(self, permitted_records):
-        # TODO support arbitrary columns/attributes instead of
-        #  only name
-        return [[record.name] for record in permitted_records]
+        return [
+            [getattr(record, self.last_field_id.name)] for record in permitted_records
+        ]
 
     def _get_tab_data(self):
         """
-        :return: iterable of 3-tuples of format:
+        :return: iterable of 4-tuples of format:
         (name, headers, data, origin_col)
         one tuple for each tab
         name: sheet name
@@ -286,7 +285,10 @@ class IrExportsLine(models.Model):
         """
         result = []
         for itr, rec in enumerate(self, start=1):
-            if rec.related_model_relation_type not in ("many2many", "many2one"):
+            if not (
+                rec.related_model_relation_type in ("many2many", "many2one")
+                and rec.option_create_tab
+            ):
                 continue
             permitted_records = []
             model_name = rec.related_model_id.model
