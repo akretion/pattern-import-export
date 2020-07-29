@@ -14,7 +14,7 @@ from .common import COLUMN_X2M_SEPARATOR, IDENTIFIER_SUFFIX
 class IrExportsLine(models.Model):
     _inherit = "ir.exports.line"
 
-    filter_use = fields.Boolean(string="Use filter")
+    filter_use = fields.Boolean(string="Use filter")  # attention pas tous les m2m exporter en tab::: use_tab, add_tab
     filter_id = fields.Many2one("ir.filters")
     is_key = fields.Boolean(
         default=False,
@@ -296,7 +296,7 @@ class IrExportsLine(models.Model):
             data = rec._format_tab_records(permitted_records)
             headers = rec._get_tab_headers()
             # TODO find a solution for this. Tab name maximum length
-            #  is 31 characters on excel
+            #  is 31 characters on excel  ::: [id] nom du filtre
             name = rec.related_model_id.name + " (" + rec.filter_id.name + ")"
             if len(name) > 31:
                 raise UserWarning(

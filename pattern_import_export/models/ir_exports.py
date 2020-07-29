@@ -177,17 +177,12 @@ class IrExports(models.Model):
     def _process_load_message(self, messages):
         count_errors = 0
         count_warnings = 0
-        error_message = _(
-            "\n Several error have been found "
-            "number of errors: {}, number of warnings: {}"
-            "\nDetail:\n {}"
-        )
         error_details = []
+        status = ""
+        errors = ""
         for message in messages:
-            error_details.append(
-                _("Line {} : {}, {}").format(
-                    message["rows"]["to"], message["type"], message["message"]
-                )
+            errors += _("Line {} : {}, {}\n").format(
+                message["rows"]["to"], message["type"], message["message"]
             )
             if message["type"] == "error":
                 count_errors += 1
@@ -197,33 +192,46 @@ class IrExports(models.Model):
                 raise UserError(
                     _("Message type {} is not supported").format(message["type"])
                 )
+        if count_warnings and not count_errors:
+            status = _("Success with warnings")
+        if count_errors:
+            status = _("Fail")
         if count_errors or count_warnings:
-            return (
-                True,
-                error_message.format(
-                    count_errors, count_warnings, "\n".join(error_details)
-                ),
-            )
-        return False, ""
+            info = _(
+                "\n Several error have been found "
+                "number of errors: {}, number of warnings: {}"
+                "\nDetail:\n {}"
+            ).format(count_errors, count_warnings, "\n".join(error_details))
+        else:
+            info = _("Import successful")
+            status = _("Success")
+        return info, errors, status
 
     def _process_load_result(self, res):
         ids = res["ids"] or []
-        info = _("Number of record imported {}\ndetails {}").format(len(ids), ids)
-        raise_error = False
+        info_errors, errors, status = "", "", ""
         if res.get("messages"):
-            raise_error, message = self._process_load_message(res["messages"])
-            info += message
-        if raise_error:
-            raise UserError(message)
-        return info
+            info_errors, errors, status = self._process_load_message(res["messages"])
+        info = (
+            _("Number of record imported {}\ndetails {}\n").format(len(ids), ids)
+            + info_errors
+        )
+        return info, errors, status
 
     @job(default_channel="root.importwithpattern")
-    def _generate_import_with_pattern_job(self, attachment):
-        attachment_data = base64.b64decode(attachment.datas.decode("utf-8"))
+    def _generate_import_with_pattern_job(self, patterned_import):
+        attachment_data = base64.b64decode(
+            patterned_import.attachment_id.datas.decode("utf-8")
+        )
         datas = self._read_import_data(attachment_data)
         res = (
             self.with_context(load_format="flatty")
             .env[self.model_id.model]
             .load([], datas)
         )
-        return self._process_load_result(res)
+        (
+            patterned_import.info,
+            patterned_import.errors,
+            patterned_import.status,
+        ) = self._process_load_result(res)
+        return
