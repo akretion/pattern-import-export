@@ -1,7 +1,7 @@
 #  Copyright (c) Akretion 2020
 #  License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html)
 
-from odoo import models, fields
+from odoo import fields, models
 
 
 class PatternedImportExport(models.Model):

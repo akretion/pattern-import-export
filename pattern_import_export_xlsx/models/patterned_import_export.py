@@ -1,10 +1,12 @@
 #  Copyright (c) Akretion 2020
 #  License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html)
 
-from odoo import models, fields, _
-import openpyxl
 import base64
 from io import BytesIO
+
+import openpyxl
+
+from odoo import _, fields, models
 
 
 class PatternedImportExport(models.Model):
