@@ -50,7 +50,7 @@ class IrExports(models.Model):
                 main_sheet.cell(row=row, column=col, value=values.get(header, ""))
 
     def _create_tabs(self, book, tab_data):
-        """ Create additional sheets for export lines use a filter
+        """ Create additional sheets for export lines with create tab option
         and write all valid choices """
         for name, headers, data, _ in tab_data:
             new_sheet = book.create_sheet(name)
