@@ -39,13 +39,14 @@ class ImportPatternWizard(models.TransientModel):
             export_name=self.ir_exports_id.name,
             format=self.ir_exports_id.export_format,
         )
-        patterned_import = self.env["patterned.import"].create(
+        patterned_import = self.env["patterned.import.export"].create(
             {
                 "attachment_id": {
                     "name": self.filename,
                     "datas": base64.b64encode(self.import_file),
                     "datas_fname": self.filename,
-                },
+                    "kind": "import",
+                }
             }
         )
         self.ir_exports_id.with_delay(

@@ -132,21 +132,21 @@ class IrExports(models.Model):
         @param records: recordset
         @return: ir.attachment recordset
         """
-        attachments = self.env["ir.attachment"].browse()
+        patterned_exports = self.env["patterned.import.export"]
         all_data = self._generate_with_records(records)
         if all_data and self.env.context.get("export_as_attachment", True):
             for export, attachment_data in zip(self, all_data):
-                attachments |= export._attachment_document(attachment_data)
-        return attachments
+                patterned_exports |= export._create_patterned_export(attachment_data)
+        return patterned_exports
 
-    def _attachment_document(self, attachment_datas):
+    def _create_patterned_export(self, attachment_datas):
         """
         Attach given parameter (b64 encoded) to the current export.
         @param attachment_datas: base64 encoded data
         @return: ir.attachment recordset
         """
         self.ensure_one()
-        return self.env["ir.attachment"].create(
+        return self.env["patterned.import.export"].create(
             {
                 "name": "{name}.{format}".format(
                     name=self.name, format=self.export_format
@@ -155,6 +155,7 @@ class IrExports(models.Model):
                 "res_id": self.id,
                 "res_model": "ir.exports",
                 "datas": attachment_datas,
+                "kind": "export",
             }
         )
 
@@ -174,64 +175,83 @@ class IrExports(models.Model):
             raise NotImplementedError()
         return getattr(self, target_function)(datafile)
 
-    def _process_load_message(self, messages):
-        count_errors = 0
-        count_warnings = 0
-        error_details = []
-        status = ""
-        errors = ""
+    def _helper_errors_warnings_to_str(self, errors, warnings):
+        info_list_format = [_("Errors:")]
+        info_list_format += [
+            _("Row {}: {}".format(row, vals["message"])) for row, vals in errors.items()
+        ]
+        info_list_format += [_("Warnings:")]
+        info_list_format += [
+            _("Row {}: {}".format(row, vals["message"]))
+            for row, vals in warnings.items()
+        ]
+        result = "\n".join(info_list_format)
+        return result
+
+    def _process_load_messages_get_dicts(self, messages):
+        errors = {}
+        warnings = {}
         for message in messages:
-            errors += _("Line {} : {}, {}\n").format(
-                message["rows"]["to"], message["type"], message["message"]
-            )
+            new_error_or_warning = {
+                "type": message["type"],
+                "message": message["message"],
+            }
             if message["type"] == "error":
-                count_errors += 1
+                errors[message["rows"]["to"]] = new_error_or_warning
             elif message["type"] == "warning":
-                count_warnings += 1
+                warnings[message["rows"]["to"]] = new_error_or_warning
             else:
                 raise UserError(
                     _("Message type {} is not supported").format(message["type"])
                 )
-        if count_warnings and not count_errors:
-            status = _("Success with warnings")
-        if count_errors:
-            status = _("Fail")
-        if count_errors or count_warnings:
-            info = _(
-                "\n Several error have been found "
-                "number of errors: {}, number of warnings: {}"
-                "\nDetail:\n {}"
-            ).format(count_errors, count_warnings, "\n".join(error_details))
-        else:
-            info = _("Import successful")
-            status = _("Success")
-        return info, errors, status
+        return errors, warnings
 
-    def _process_load_result(self, res):
-        ids = res["ids"] or []
-        info_errors, errors, status = "", "", ""
-        if res.get("messages"):
-            info_errors, errors, status = self._process_load_message(res["messages"])
-        info = (
-            _("Number of record imported {}\ndetails {}\n").format(len(ids), ids)
-            + info_errors
-        )
-        return info, errors, status
+    def _process_load_messages(self, messages):
+        """
+        Parses error and warning messages for further processing
+        returns information recap, errors, status string
+        errors are of the following format:
+            row_number:vals_dict
+        where vals_dict is a dict with "type" and "message" keys
+        """
+        errors, warnings = self._process_load_messages_get_dicts(messages)
+        if errors:
+            status = _("Fail")
+        else:
+            status = _("Success with warnings")
+        detail = self._helper_errors_warnings_to_str(errors, warnings)
+        info = _(
+            "\nSeveral error have been found "
+            "number of errors: {}, number of warnings: {}"
+            "\nDetail:\n {}"
+        ).format(len(errors.items()), len(warnings.items()), detail)
+        return info, errors, warnings, status
+
+    def _process_load_result(self, load_result, patterned_import):
+        """
+        Extend this function for additional processing/file writing
+        """
+        ids = load_result["ids"] or []
+        if load_result.get("messages"):
+            info, errors, warnings, status = self._process_load_messages(
+                load_result["messages"]
+            )
+            raise UserError(info)
+        else:
+            info = _("Number of record imported {}\nDetails {}\n").format(len(ids), ids)
+            status = _("Success")
+            errors, warnings = {}, {}
+        patterned_import.info = info
+        patterned_import.status = status
+        return info, status, warnings, errors
 
     @job(default_channel="root.importwithpattern")
     def _generate_import_with_pattern_job(self, patterned_import):
-        attachment_data = base64.b64decode(
-            patterned_import.attachment_id.datas.decode("utf-8")
-        )
+        attachment_data = base64.b64decode(patterned_import.datas.decode("utf-8"))
         datas = self._read_import_data(attachment_data)
-        res = (
+        load_result = (
             self.with_context(load_format="flatty")
             .env[self.model_id.model]
             .load([], datas)
         )
-        (
-            patterned_import.info,
-            patterned_import.errors,
-            patterned_import.status,
-        ) = self._process_load_result(res)
-        return
+        self._process_load_result(load_result, patterned_import)

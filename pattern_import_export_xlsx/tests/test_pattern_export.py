@@ -9,7 +9,6 @@ import openpyxl
 
 from odoo.tests.common import SavepointCase
 
-# pylint: disable=odoo-addons-relative-import
 from odoo.addons.pattern_import_export.tests.common import ExportPatternCommon
 
 CELL_VALUE_EMPTY = None

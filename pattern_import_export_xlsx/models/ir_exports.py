@@ -67,7 +67,7 @@ class IrExports(models.Model):
             tab_name, _, data, col_dst = el
             col_letter_dst = get_column_letter(col_dst)
             # TODO support arbitrary columns/attributes instead of
-            #  only name
+            #  only one field
             col_letter_src = get_column_letter(1)
             range_src = "${}$2:${}${}".format(
                 col_letter_src, col_letter_src, str(1 + len(data))
@@ -91,6 +91,8 @@ class IrExports(models.Model):
         excel_file = self._create_xlsx_file(records)
         return excel_file.getvalue()
 
+    # Import part
+
     def _read_xlsx_file(self, datafile):
         workbook = openpyxl.load_workbook(base64.b64decode(BytesIO(datafile).read()))
         return workbook[workbook.sheetnames[0]]
@@ -106,3 +108,11 @@ class IrExports(models.Model):
             for col in range(worksheet.max_column):
                 elm[headers[col]] = worksheet.cell_value(row, col)
             yield elm
+
+    def _process_load_result(self, load_result, patterned_import):
+        info, status, warnings, errors = super()._process_load_result(
+            self, load_result, patterned_import
+        )
+        if self.export_format == "xlsx":
+            patterned_import.add_errors_warnings(errors, warnings)
+        return info, status, warnings, errors
