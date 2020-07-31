@@ -164,9 +164,11 @@ class IrExports(models.Model):
     @api.multi
     def _read_import_data(self, datafile):
         """
-
-        @param datafile:
-        @return: list of str
+        To support a file format, you should implement _read_import_data_{format},
+        which should return an iterable with each element representing a row,
+        a dict of format header:cell
+         header: str
+         cell: cell value for that row
         """
         target_function = "_read_import_data_{format}".format(
             format=self.export_format or ""

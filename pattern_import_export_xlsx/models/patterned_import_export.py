@@ -18,12 +18,12 @@ class PatternedImportExport(models.Model):
     kind = fields.Selection([("import", "import"), ("export", "export")], required=True)
 
     def _helper_reopen_wb(self):
-        self.ensure_one()
         decoded_data = base64.b64decode(self.datas)
         decoded_obj = BytesIO(decoded_data)
         return openpyxl.load_workbook(decoded_obj)
 
     def add_errors_warnings(self, errors, warnings):
+        self.ensure_one()
         wb = self._helper_reopen_wb()
         main_sheet = wb.worksheets[0]
         # write headers

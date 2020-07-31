@@ -13,6 +13,15 @@ from odoo.addons.pattern_import_export.tests.common import ExportPatternCommon
 
 CELL_VALUE_EMPTY = None
 
+# from os.path import dirname, join
+#
+# recorder = VCR(
+#     record_mode='once',
+#     cassette_library_dir=join(dirname(__file__), 'fixtures/cassettes'),
+#     path_transformer=VCR.ensure_suffix('.yaml'),
+#     filter_headers=['Authorization'],
+# )
+
 
 class TestPatternExport(ExportPatternCommon, SavepointCase):
     @classmethod
@@ -190,3 +199,50 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
             ],
         ]
         self._helper_check_cell_values(main_sheet, expected_values)
+
+    # Import part
+
+
+    _name = "import.pattern.wizard"
+    _description = "Import pattern wizard"
+
+    ir_exports_id = fields.Many2one(
+        comodel_name="ir.exports",
+        string="Import pattern",
+        required=True,
+        help="Pattern used to import this file (it should be the same "
+        "used for the export)",
+    )
+    import_file = fields.Binary(String="File to import", required=True)
+    filename = fields.Char()
+
+    def _helper_get_base_wb(self, kind):
+        from os.path import dirname
+        kind_mapping = {
+            "simple": "simple.xlsx",
+            "m2m": "m2m.xlsx",
+            "o2m": "o2m.xlsx",
+        }
+        path = dirname(__file__) + "/test_files/" + kind_mapping[kind]
+        return openpyxl.load_workbook(path)
+
+    def _helper_import_wb(self, kind, wb):
+        kind_mapping = {
+            "simple": self.ir_exports.id,
+            "m2m": self.ir_exports_m2m.id,
+            "o2m": self.ir_exports_o2m.id
+        }
+        wizard = self.env["import.pattern.wizard"].create({
+            "ir_exports_id": kind_mapping[kind],
+            "import_file": self._helper_get_base_wb(kind),
+            "filename": "doesnt matter",
+        })
+        wizard.action_launch_import()
+
+    def test_import_xlsx_simple(self):
+
+
+    def test_import_xlsx_m2m(self):
+
+
+    def test_import_xlsx_o2m(self):
