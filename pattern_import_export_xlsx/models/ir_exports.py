@@ -94,25 +94,27 @@ class IrExports(models.Model):
     # Import part
 
     def _read_xlsx_file(self, datafile):
-        workbook = openpyxl.load_workbook(base64.b64decode(BytesIO(datafile).read()))
+        workbook = openpyxl.load_workbook(BytesIO(datafile))
         return workbook[workbook.sheetnames[0]]
 
     @api.multi
     def _read_import_data_xlsx(self, datafile):
         worksheet = self._read_xlsx_file(datafile)
         headers = []
-        for col in range(worksheet.max_column):  # max_column is 1-based
-            headers.append(worksheet.cell_value(1, col))
-        for row in range(worksheet.max_row + 1):  # max_row is 1-based
+        for col in range(worksheet.max_column):
+            headers.append(worksheet.cell(1, col + 1).value)  # column nr is 1-based
+        for row in range(worksheet.max_row):
             elm = {}
             for col in range(worksheet.max_column):
-                elm[headers[col]] = worksheet.cell_value(row, col)
+                elm[headers[col]] = worksheet.cell(
+                    row + 1, col + 1
+                ).value  # row nr is 1-based
             yield elm
 
     def _process_load_result(self, load_result, patterned_import):
         info, status, warnings, errors = super()._process_load_result(
             self, load_result, patterned_import
         )
-        if self.export_format == "xlsx":
+        if self.export_format == "xlsx" and (errors or warnings):
             patterned_import.add_errors_warnings(errors, warnings)
         return info, status, warnings, errors

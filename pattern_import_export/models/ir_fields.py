@@ -54,6 +54,9 @@ class IrFieldsConverter(models.AbstractModel):
             # TODO finish
             # simple implementation for now
             # we should add warning, manage when having multiple result...
+
+            # M2O:
+
             record = model.search([(subfield, "=", value)])
             return record.id, subfield, []
 

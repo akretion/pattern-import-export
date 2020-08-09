@@ -22,7 +22,7 @@
 
         <!--Exports-->
         <record id="demo_export" model="ir.exports">
-            <field name="name">Partner list</field>
+            <field name="name">Partner list - Simple</field>
             <field name="resource">res.partner</field>
             <field name="is_pattern" eval="True"/>
         </record>

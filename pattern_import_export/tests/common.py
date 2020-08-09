@@ -14,7 +14,11 @@ class ExportPatternCommon(JobMixin):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        cls.env = cls.env(
+            context=dict(
+                cls.env.context, tracking_disable=True, test_queue_job_no_delay=True
+            )
+        )
         cls.partner_1 = cls.env.ref("base.res_partner_1")
         cls.partner_2 = cls.env.ref("base.res_partner_2")
         cls.partner_3 = cls.env.ref("base.res_partner_3")
@@ -81,13 +85,14 @@ class ExportPatternCommon(JobMixin):
             }
         )
 
-    def _get_attachment(self, record):
+    @classmethod
+    def _get_attachment(cls, record):
         """
         Get the first attachment from given recordset
         @param record: recordset
         @return: ir.attachment
         """
-        return self.env["ir.attachment"].search(
+        return cls.env["ir.attachment"].search(
             [("res_model", "=", record._name), ("res_id", "=", record.id)], limit=1
         )
 
