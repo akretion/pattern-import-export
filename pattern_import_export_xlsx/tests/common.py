@@ -1,18 +1,16 @@
 # Copyright 2020 Akretion France (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-# pylint: disable=missing-manifest-dependency
 
 import base64
+from io import BytesIO
+
 import openpyxl
 
-from contextlib import contextmanager
-from io import BytesIO
-from os.path import dirname
-
 from odoo import _
-from odoo.addons.pattern_import_export.tests.common import ExportPatternCommon
 from odoo.exceptions import ValidationError
 from odoo.tests import SavepointCase
+
+from odoo.addons.pattern_import_export.tests.common import ExportPatternCommon
 
 CELL_VALUE_EMPTY = None
 

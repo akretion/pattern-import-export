@@ -1,7 +1,6 @@
 # Copyright 2020 Akretion France (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-# pylint: disable=missing-manifest-dependency
-import base64
+
 from io import BytesIO
 
 import openpyxl
@@ -107,8 +106,8 @@ class IrExports(models.Model):
             elm = {}
             for col in range(worksheet.max_column):
                 elm[headers[col]] = worksheet.cell(
-                    row + 1, col + 1
-                ).value  # row nr is 1-based
+                    row + 2, col + 1  # row nr is 1-based, and skip header row
+                ).value
             yield elm
 
     def _process_load_result(self, load_result, patterned_import):

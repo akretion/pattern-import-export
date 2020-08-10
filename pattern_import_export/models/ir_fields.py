@@ -46,19 +46,43 @@ class IrFieldsConverter(models.AbstractModel):
                 [subfield] = fieldset
                 return subfield, []
 
+    # @api.model
+    # def db_id_for(self, model, field, subfield, value):
+    #     if subfield in [".id", "id", None]:
+    #         return super().db_id_for(model, field, subfield, value)
+    #     else:
+    #         # TODO finish
+    #         # simple implementation for now
+    #         # we should add warning, manage when having multiple result...
+    #
+    #         # M2O:
+    #
+    #         record = model.search([(subfield, "=", value)])
+    #         return record.id, subfield, []
+
     @api.model
     def db_id_for(self, model, field, subfield, value):
         if subfield in [".id", "id", None]:
             return super().db_id_for(model, field, subfield, value)
         else:
-            # TODO finish
-            # simple implementation for now
-            # we should add warning, manage when having multiple result...
+            fn_name_with_field_type = "db_id_for_" + field.type
+            return getattr(self, fn_name_with_field_type)(model, field, subfield, value)
 
-            # M2O:
+    @api.model
+    def db_id_for_many2one(self, model, field, subfield, value):
+        record = self.env[field.comodel_name].search([(subfield, "=", value)])
+        return record.id, subfield, []
 
-            record = model.search([(subfield, "=", value)])
-            return record.id, subfield, []
+    # outermost_field = getattr(model)
+    # record = self.env[field.comodel_name].search([(outermost_field, "=", value)])
+
+    @api.model
+    def db_id_for_many2many(self, model, field, subfield, value):
+        raise NotImplementedError
+
+    @api.model
+    def db_id_for_one2many(self, model, field, subfield, value):
+        raise NotImplementedError
 
     @api.model
     def _list_to_many2many(self, model, field, value):

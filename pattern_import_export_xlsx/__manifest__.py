@@ -9,8 +9,8 @@
     "website": "http://www.akretion.com",
     "license": "AGPL-3",
     "depends": ["pattern_import_export"],
-    "external_dependencies": {"python": ["openpyxl"]},
     "demo": ["demo/demo.xml"],
+    "external_dependencies": {"python": ["openpyxl"]},
     "data": [],
     "installable": True,
 }

@@ -1,10 +1,9 @@
 # Copyright 2020 Akretion France (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-# pylint: disable=missing-manifest-dependency
 
 from odoo.tests.common import SavepointCase
 
-from .common import ExportPatternXlsxCommon, CELL_VALUE_EMPTY
+from .common import CELL_VALUE_EMPTY, ExportPatternXlsxCommon
 
 
 class TestPatternImport(ExportPatternXlsxCommon, SavepointCase):
@@ -37,6 +36,4 @@ class TestPatternImport(ExportPatternXlsxCommon, SavepointCase):
         self._helper_check_headers(main_sheet, expected_headers)
 
     # def test_import_xlsx_m2m(self):
-    #
-    #
     # def test_import_xlsx_o2m(self):
