@@ -54,18 +54,25 @@ class Base(models.AbstractModel):
         for key in list(res.keys()):
             if key.endswith(IDENTIFIER_SUFFIX):
                 field_name = key.replace(IDENTIFIER_SUFFIX, "")
-                record = self.search([(field_name, "=", res[key])])
-                if len(record) > 1:
-                    raise ValidationError(
-                        _("Too many {} found for the key {} with the value {}").format(
-                            _(record._description), key, res[key]
-                        )
-                    )
-                elif record:
-                    res[".id"] = record.id
-                    res.pop(key)
+                field = self._fields.get(field_name)
+                record = self.env["ir.fields.converter"].db_id_for(self, field, field_name, res[key])
+                res[".id"] = record.id
+                res.pop(key)
+                # record = self.search([(field_name, "=", res[key])])
+                # if len(record) > 1:
+                #     raise ValidationError(
+                #         _("Too many {} found for the key {} with the value {}").format(
+                #             _(record._description), key, res[key]
+                #         )
+                #     )
+                # elif record:
+                #     res[".id"] = record.id
+                #     res.pop(key)
             else:
                 field = self._fields.get(key)
+            #     field = self._fields.get(key)
+            #     if field and field.type == "one2many":
+            #         o2m_fields.append([key, field])
                 if field and field.type == "one2many":
                     o2m_fields.append([key, field])
         for key, field in o2m_fields:

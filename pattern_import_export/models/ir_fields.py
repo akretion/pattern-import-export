@@ -3,10 +3,10 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 
-from odoo import api, models
+from odoo import api, models, _
 
 from odoo.addons.base.models import ir_fields
-
+from odoo.exceptions import ValidationError
 from .common import IDENTIFIER_SUFFIX
 
 
@@ -62,19 +62,29 @@ class IrFieldsConverter(models.AbstractModel):
 
     @api.model
     def db_id_for(self, model, field, subfield, value):
+        """
+        Odoo core covers only cases for:
+        .id, id (extid) and None (in which case a record is created)
+        We cover the following cases additionally:
+        - if it's a m2o field, search for it using subfield
+        - any other simple field
+        If these cases don't turn out exactly 1 record, an error is raised
+        """
         if subfield in [".id", "id", None]:
             return super().db_id_for(model, field, subfield, value)
         else:
-            fn_name_with_field_type = "db_id_for_" + field.type
-            return getattr(self, fn_name_with_field_type)(model, field, subfield, value)
+            if field.type == "many2one":
+                return self.db_id_for_many2one(model, field, subfield, value)
+            else:
+                return self.env[field.model_name].search([(subfield, "=", value)])
 
     @api.model
     def db_id_for_many2one(self, model, field, subfield, value):
-        record = self.env[field.comodel_name].search([(subfield, "=", value)])
-        return record.id, subfield, []
-
-    # outermost_field = getattr(model)
-    # record = self.env[field.comodel_name].search([(outermost_field, "=", value)])
+        matching_records = self.env[field.comodel_name].search([(subfield, "=", value)])
+        if len(matching_records.ids) > 1:
+            raise ValidationError(_("More than one record matched"))
+        if len(matching_records.ids) == 0:
+            raise ValidationError(_("No record matched"))
 
     @api.model
     def db_id_for_many2many(self, model, field, subfield, value):

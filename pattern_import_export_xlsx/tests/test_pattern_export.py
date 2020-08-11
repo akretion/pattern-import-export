@@ -9,7 +9,7 @@ from .common import CELL_VALUE_EMPTY, ExportPatternXlsxCommon
 class TestPatternExport(ExportPatternXlsxCommon, SavepointCase):
     def test_export_headers(self):
         wb = self.get_exported_workbook(self.ir_exports, self.partners)
-        sheet = wb["Partner list"]
+        sheet = wb["Partner list - Simple"]
         expected_headers = [
             "id",
             "name",
@@ -21,7 +21,7 @@ class TestPatternExport(ExportPatternXlsxCommon, SavepointCase):
 
     def test_export_vals(self):
         wb = self.get_exported_workbook(self.ir_exports, self.partners)
-        sheet = wb["Partner list"]
+        sheet = wb["Partner list - Simple"]
         # TODO REWRITE WITH EXTID/ID CHOICE
         id1 = self.env.ref("base.res_partner_1").id
         id2 = self.env.ref("base.res_partner_2").id
@@ -44,7 +44,7 @@ class TestPatternExport(ExportPatternXlsxCommon, SavepointCase):
 
     def test_export_validators(self):
         wb = self.get_exported_workbook(self.ir_exports, self.partners)
-        sheet_base = wb["Partner list"]
+        sheet_base = wb["Partner list - Simple"]
         self.assertEqual(
             sheet_base.data_validations.dataValidation[0].formula1,
             "='Country (US, FR, BE)'!$A$2:$A$4",
