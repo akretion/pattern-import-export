@@ -5,9 +5,9 @@ import base64
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.queue_job.job import job
-
 from .common import COLUMN_X2M_SEPARATOR, IDENTIFIER_SUFFIX
+
+# from odoo.addons.queue_job.job import job
 
 
 class IrExports(models.Model):
@@ -217,7 +217,7 @@ class IrExports(models.Model):
             raise UserError(message)
         return info
 
-    @job(default_channel="root.importwithpattern")
+    #    @job(default_channel="root.importwithpattern")
     def _generate_import_with_pattern_job(self, attachment):
         attachment_data = base64.b64decode(attachment.datas.decode("utf-8"))
         datas = self._read_import_data(attachment_data)

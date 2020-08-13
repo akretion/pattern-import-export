@@ -1,7 +1,7 @@
 # Copyright 2020 ACSONE SA/NV (<http://acsone.eu>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class ImportPatternWizard(models.TransientModel):
@@ -30,14 +30,14 @@ class ImportPatternWizard(models.TransientModel):
         @return: dict/action
         """
         self.ensure_one()
-        description = _(
-            "Generate import '{model}' with pattern '{export_name}' using "
-            "format {format}"
-        ).format(
-            model=self.ir_exports_id.model_id.model,
-            export_name=self.ir_exports_id.name,
-            format=self.ir_exports_id.export_format,
-        )
+        # description = _(
+        #     "Generate import '{model}' with pattern '{export_name}' using "
+        #     "format {format}"
+        # ).format(
+        #     model=self.ir_exports_id.model_id.model,
+        #     export_name=self.ir_exports_id.name,
+        #     format=self.ir_exports_id.export_format,
+        # )
         attachment = self.env["ir.attachment"].create(
             {
                 "name": self.filename,
@@ -45,7 +45,8 @@ class ImportPatternWizard(models.TransientModel):
                 "datas_fname": self.filename,
             }
         )
-        self.ir_exports_id.with_delay(
-            description=description
-        )._generate_import_with_pattern_job(attachment)
+        # self.ir_exports_id.with_delay(
+        #             description=description
+        #         )._generate_import_with_pattern_job(attachment)
+        self.ir_exports_id._generate_import_with_pattern_job(attachment)
         return {}

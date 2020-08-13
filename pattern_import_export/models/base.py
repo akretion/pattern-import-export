@@ -6,16 +6,16 @@ from odoo import _, api, models
 from odoo.exceptions import ValidationError
 from odoo.osv import expression
 
-from odoo.addons.queue_job.job import job
-
 from .common import IDENTIFIER_SUFFIX
+
+# from odoo.addons.queue_job.job import job
 
 
 class Base(models.AbstractModel):
     _inherit = "base"
 
     @api.multi
-    @job(default_channel="root.exportwithpattern")
+    #    @job(default_channel="root.exportwithpattern")
     def _generate_export_with_pattern_job(self, export_pattern):
         export_pattern._export_with_record(self)
         return True

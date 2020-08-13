@@ -1,6 +1,6 @@
 # Copyright 2020 Akretion France (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 
 class ExportPatternWizard(models.Model):
@@ -33,18 +33,20 @@ class ExportPatternWizard(models.Model):
         @return: dict
         """
         for wiz in self:
-            description = _(
-                "Generate export '{model}' with export pattern "
-                "'{export_name}' using format {format}"
-            ).format(
-                model=wiz.model,
-                export_name=wiz.ir_exports_id.name,
-                format=wiz.ir_exports_id.export_format,
-            )
+            # description = _(
+            #     "Generate export '{model}' with export pattern "
+            #     "'{export_name}' using format {format}"
+            # ).format(
+            #     model=wiz.model,
+            #     export_name=wiz.ir_exports_id.name,
+            #     format=wiz.ir_exports_id.export_format,
+            # )
             records = self.env[wiz.model].browse(
                 self.env.context.get("active_ids", False)
             )
-            records.with_delay(
-                description=description
-            )._generate_export_with_pattern_job(wiz.ir_exports_id)
+            # records(
+            # records.with_delay(
+            #     description=description
+            # )._generate_export_with_pattern_job(wiz.ir_exports_id)
+            records._generate_export_with_pattern_job(wiz.ir_exports_id)
         return {}
