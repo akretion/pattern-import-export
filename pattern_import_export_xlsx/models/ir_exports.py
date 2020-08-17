@@ -45,8 +45,9 @@ class IrExports(models.Model):
         """
         Get the actual data and write it row by row on the main sheet
         """
+        headers = self._get_header()
         for row, values in enumerate(self._get_data_to_export(records), start=2):
-            for col, header in enumerate(self._get_header(), start=1):
+            for col, header in enumerate(headers, start=1):
                 main_sheet.cell(row=row, column=col, value=values.get(header, ""))
 
     def _create_tabs(self, book, tab_data):
@@ -129,11 +130,10 @@ class IrExports(models.Model):
         for col in range(real_last_column):
             headers.append(worksheet.cell(1, col + 1).value)
         real_last_row = self._find_real_last_row(worksheet, real_last_column)
-        for row in range(real_last_row):
+        for row in range(real_last_row - 1):
             elm = {}
             for col in range(real_last_column):
-                elm[headers[col]] = worksheet.cell(row + 1, col + 1).value
-            #
+                elm[headers[col]] = worksheet.cell(row + 2, col + 1).value
             yield elm
 
     def _process_load_result_for_xls(self, attachment, res):
@@ -144,7 +144,7 @@ class IrExports(models.Model):
             ws.insert_cols(1)
             ws.cell(1, 1, value=_("#Error"))
         for message in res["messages"]:
-            ws.cell(message["rows"]["to"], 1, value=message["message"].strip())
+            ws.cell(message["rows"]["to"] + 1, 1, value=message["message"].strip())
         output = BytesIO()
         wb.save(output)
         attachment.datas = base64.b64encode(output.getvalue())
