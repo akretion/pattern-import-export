@@ -52,16 +52,19 @@ class IrFieldsConverter(models.AbstractModel):
         if subfield in [".id", "id", None]:
             return super().db_id_for(model, field, subfield, value)
         else:
-            record = self.env[field._related_comodel_name].search(
-                [(subfield, "=", value)]
-            )
-            if len(record) > 1:
-                raise UserError(
-                    _(
-                        "Too many records found for {} "
-                        "with the field {} and the value {}"
-                    ).format(_(record._description), subfield, value)
+            if value:
+                record = self.env[field._related_comodel_name].search(
+                    [(subfield, "=", value)]
                 )
+                if len(record) > 1:
+                    raise UserError(
+                        _(
+                            "Too many records found for {} "
+                            "with the field {} and the value {}"
+                        ).format(_(record._description), subfield, value)
+                    )
+            else:
+                record = self.env[field._related_comodel_name].browse()
             return record.id, subfield, []
 
     @api.model
@@ -96,3 +99,9 @@ class IrFieldsConverter(models.AbstractModel):
             # odoo expect a list with one item
             value = [value]
         return super()._str_to_many2one(model, field, value)
+
+    @api.model
+    def _str_to_boolean(self, model, field, value):
+        if type(value).__name__ == 'NoneType':
+            value = ''
+        return super()._str_to_boolean(model, field, value)
