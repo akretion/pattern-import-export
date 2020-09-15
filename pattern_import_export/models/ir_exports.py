@@ -15,11 +15,9 @@ COLUMN_X2M_SEPARATOR = "|"
 
 class IrExports(models.Model):
     """
-    Todo: description:
-    Add selection options on field export_format
-    To implements:
-    _export_with_record_FORMAT (should use an iterator)
-    _read_import_data_FORMAT (should return an iterator)
+    Fields added concern only the custom import/export, not the base functionality
+    In order to use them, you need to implement some functions (see xlsx module for
+    an example)
     """
 
     _inherit = "ir.exports"
@@ -32,20 +30,20 @@ class IrExports(models.Model):
     export_format = fields.Selection(selection=[])
 
     @api.multi
-    def _get_header(self):
+    def _get_headers(self):
         """
         Build header of data-structure.
         Could be recursive in case of lines with pattern_export_id.
         @return: list of string
         """
         self.ensure_one()
-        header = []
+        headers = []
         for export_line in self.export_fields:
-            header.extend(export_line._get_header())
-        return header
+            headers.extend(export_line._get_headers())
+        return headers
 
     @api.multi
-    def generate_pattern(self):
+    def generate_template_for_pattern(self):
         """
         Allows you to generate an (empty) file to be used a
         pattern for the export.
@@ -53,7 +51,7 @@ class IrExports(models.Model):
         """
         for export in self:
             records = self.env[export.model_id.model].browse()
-            data = export._generate_with_records(records)
+            data = export._generate_attachment_data(records)
             if data:
                 data = data[0]
             export.write(
@@ -67,8 +65,7 @@ class IrExports(models.Model):
     @api.multi
     def _get_data_to_export(self, records):
         """
-        Iterator who built data dict record by record.
-        This function could be recursive in case of sub-pattern
+        Note that this function could be recursive in case of sub-pattern
         """
         self.ensure_one()
         for record in records:
@@ -96,7 +93,7 @@ class IrExports(models.Model):
 
     def json2flatty(self, data):
         res = {}
-        for header in self._get_header():
+        for header in self._get_headers():
             try:
                 val = data
                 for key in header.split(COLUMN_X2M_SEPARATOR):
@@ -115,10 +112,7 @@ class IrExports(models.Model):
     @api.multi
     def _get_data_to_export_by_record(self, record):
         """
-        Use the ORM cache to re-use already exported data and
-        could also prevent infinite recursion
-        @param record: recordset
-        @return: dict
+        Converts record to "flatty" format which is json-like
         """
         self.ensure_one()
         record.ensure_one()
@@ -127,7 +121,7 @@ class IrExports(models.Model):
         return self.json2flatty(data)
 
     @api.multi
-    def _generate_with_records(self, records):
+    def _generate_attachment_data(self, records):
         """
         Export given recordset
         @param records: recordset
@@ -135,7 +129,7 @@ class IrExports(models.Model):
         """
         all_data = []
         for export in self:
-            target_function = "_export_with_record_{format}".format(
+            target_function = "create_attachments_{format}".format(
                 format=export.export_format or ""
             )
             if not export.export_format or not hasattr(export, target_function):
@@ -149,20 +143,20 @@ class IrExports(models.Model):
         return all_data
 
     @api.multi
-    def _export_with_record(self, records):
+    def create_attachments(self, records):
         """
         Export given recordset
         @param records: recordset
         @return: ir.attachment recordset
         """
         attachments = self.env["ir.attachment"].browse()
-        all_data = self._generate_with_records(records)
+        all_data = self._generate_attachment_data(records)
         if all_data and self.env.context.get("export_as_attachment", True):
             for export, attachment_data in zip(self, all_data):
-                attachments |= export._attachment_document(attachment_data)
+                attachments |= export._create_attachment(attachment_data)
         return attachments
 
-    def _attachment_document(self, attachment_datas):
+    def _create_attachment(self, attachment_datas):
         """
         Attach given parameter (b64 encoded) to the current export.
         @param attachment_datas: base64 encoded data

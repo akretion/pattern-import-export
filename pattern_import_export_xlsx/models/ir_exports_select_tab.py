@@ -14,7 +14,7 @@ class IrExportsSelectTab(models.Model):
                 record_name=select_tab.name, field=field
             )
             sheet = book.add_worksheet(sheet_name)
-            for col, header in enumerate(select_tab._get_header()):
+            for col, header in enumerate(select_tab._get_headers()):
                 sheet.write(0, col, header, style)
             row = 1
             for row, values in enumerate(select_tab._get_data_to_export(), start=1):

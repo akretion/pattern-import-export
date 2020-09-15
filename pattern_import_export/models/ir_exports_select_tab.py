@@ -16,7 +16,7 @@ class IrExportsSelectTab(models.Model):
     field_id = fields.Many2one("ir.model.fields", string="Field", required=True)
 
     @api.multi
-    def _get_header(self):
+    def _get_headers(self):
         """
         Get the header
         @return: list of string
@@ -56,7 +56,7 @@ class IrExportsSelectTab(models.Model):
         """
         for record in self._get_records_to_export():
             data = {}
-            for header in self._get_header():
+            for header in self._get_headers():
                 value = record[self.field_id.name]
                 if value and isinstance(value, (list, tuple)):
                     value = value[1]

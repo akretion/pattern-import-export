@@ -193,7 +193,7 @@ class IrExportsLine(models.Model):
         return COLUMN_X2M_SEPARATOR.join(base_header)
 
     @api.multi
-    def _get_header(self, use_description=False):
+    def _get_headers(self, use_description=False):
         """
         @return: list of str
         """
@@ -217,7 +217,7 @@ class IrExportsLine(models.Model):
                     base_header = record._build_header(record.level, use_description)
                     sub_pattern = record.pattern_export_id
                     if sub_pattern:
-                        sub_headers = sub_pattern.export_fields._get_header(
+                        sub_headers = sub_pattern.export_fields._get_headers(
                             use_description
                         )
                         for idx in range(1, record.number_occurence + 1):

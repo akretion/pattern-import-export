@@ -105,6 +105,6 @@ Add a new export format
 -----------------------
 1. Inherit the ``ir.exports`` model.
 2. Add your new file format in the selection field ``export_format``;
-3. Implements functions ``_export_with_record_<format>`` and ``_read_import_data_<format>``.
+3. Implements functions ``create_attachments_<format>`` and ``_read_import_data_<format>``.
 
 Please take care of iterators (``yield``) to avoid loading full file into the system memory.

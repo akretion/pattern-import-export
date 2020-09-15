@@ -15,7 +15,7 @@ class Base(models.AbstractModel):
     @api.multi
     @job(default_channel="root.exportwithpattern")
     def _generate_export_with_pattern_job(self, export_pattern):
-        export_pattern._export_with_record(self)
+        export_pattern.create_attachments(self)
         return True
 
     def _flatty2json(self, row):

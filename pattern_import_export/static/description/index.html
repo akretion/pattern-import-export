@@ -578,7 +578,7 @@ Existing record:</p>
 <ol class="arabic simple">
 <li>Inherit the <tt class="docutils literal">ir.exports</tt> model.</li>
 <li>Add your new file format in the selection field <tt class="docutils literal">export_format</tt>;</li>
-<li>Implements functions <tt class="docutils literal">_export_with_record_&lt;format&gt;</tt> and <tt class="docutils literal">_read_import_data_&lt;format&gt;</tt>.</li>
+<li>Implements functions <tt class="docutils literal">create_attachments_&lt;format&gt;</tt> and <tt class="docutils literal">_read_import_data_&lt;format&gt;</tt>.</li>
 </ol>
 <p>Please take care of iterators (<tt class="docutils literal">yield</tt>) to avoid loading full file into the system memory.</p>
 </div>

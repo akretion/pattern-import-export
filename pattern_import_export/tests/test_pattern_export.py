@@ -6,12 +6,12 @@ from .common import ExportPatternCommon
 
 
 class TestPatternExport(ExportPatternCommon, SavepointCase):
-    def test_get_header1(self):
+    def test_get_headers1(self):
         """
         Ensure the header is correctly generated
         @return:
         """
-        headers = self.ir_exports._get_header()
+        headers = self.ir_exports._get_headers()
         expected_header = [
             "id",
             "name",
@@ -21,23 +21,23 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         ]
         self.assertEquals(expected_header, headers)
 
-    def test_get_header2(self):
+    def test_get_headers2(self):
         """
         Ensure the header is correctly generated in case of M2M with 1 occurrence
         @return:
         """
-        headers = self.ir_exports_m2m._get_header()
+        headers = self.ir_exports_m2m._get_headers()
         expected_header = ["id", "name", "company_ids|1|name"]
         self.assertEquals(expected_header, headers)
 
-    def test_get_header3(self):
+    def test_get_headers3(self):
         """
         Ensure the header is correctly generated in case of M2M more than 1 occurrence
         @return:
         """
         export_fields_m2m = self.env.ref("pattern_import_export.demo_export_m2m_line_3")
         export_fields_m2m.write({"number_occurence": 5})
-        headers = self.ir_exports_m2m._get_header()
+        headers = self.ir_exports_m2m._get_headers()
         expected_header = [
             "id",
             "name",
@@ -49,13 +49,13 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         ]
         self.assertEquals(expected_header, headers)
 
-    def test_get_header4(self):
+    def test_get_headers4(self):
         """
         Ensure the header is correctly generated in case of O2M.
         This O2M contains a sub-pattern whith a M2M with 1 occurrence.
         @return:
         """
-        headers = self.ir_exports_o2m._get_header()
+        headers = self.ir_exports_o2m._get_headers()
         expected_header = [
             "id",
             "name",
@@ -71,7 +71,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         ]
         self.assertEquals(expected_header, headers)
 
-    def test_get_header5(self):
+    def test_get_headers5(self):
         """
         Ensure the header is correctly generated in case of O2M.
         For this case, the O2M contains a sub-pattern with a M2M with more
@@ -80,7 +80,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         """
         export_fields_m2m = self.env.ref("pattern_import_export.demo_export_m2m_line_3")
         export_fields_m2m.write({"number_occurence": 5})
-        headers = self.ir_exports_o2m._get_header()
+        headers = self.ir_exports_o2m._get_headers()
         expected_header = [
             "id",
             "name",

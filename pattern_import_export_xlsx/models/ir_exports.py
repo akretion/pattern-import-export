@@ -23,7 +23,7 @@ class IrExports(models.Model):
         sheet = book.add_worksheet(self.name)
         cell_style = book.add_format({"bold": True})
         ad_sheet_list = {}
-        for col, header in enumerate(self._get_header()):
+        for col, header in enumerate(self._get_headers()):
             sheet.write(0, col, header, cell_style)
         # Manage others tab of Excel file!
         for select_tab in self._get_select_tab():
@@ -42,7 +42,7 @@ class IrExports(models.Model):
         return book, sheet, pattern_file
 
     @api.multi
-    def _export_with_record_xlsx(self, records):
+    def create_attachments_xlsx(self, records):
         """
         Export given recordset
         @param records: recordset
@@ -51,7 +51,7 @@ class IrExports(models.Model):
         self.ensure_one()
         book, sheet, pattern_file = self._create_xlsx_file()
         for row, values in enumerate(self._get_data_to_export(records), start=1):
-            for col, header in enumerate(self._get_header()):
+            for col, header in enumerate(self._get_headers()):
                 value = values.get(header, "")
                 sheet.write(row, col, value)
         book.close()

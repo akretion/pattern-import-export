@@ -20,12 +20,12 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         cls.ir_exports.write(values)
         cls.ir_exports_m2m.write(values)
 
-    def test_generate_pattern_with_basic_fields(self):
+    def test_generate_template_for_pattern_with_basic_fields(self):
         self.ir_exports.pattern_last_generation_date = False
         self.ir_exports.pattern_file = False
         self.ir_exports.export_fields[0].unlink()
         self.ir_exports.export_fields[2:].unlink()
-        res = self.ir_exports.generate_pattern()
+        res = self.ir_exports.generate_template_for_pattern()
         self.assertEqual(res, True)
         self.assertNotEqual(self.ir_exports.pattern_file, False)
         self.assertNotEqual(self.ir_exports.pattern_last_generation_date, False)
@@ -36,10 +36,10 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         self.assertEqual(sheet1.cell_value(0, 0), "Name")
         self.assertEqual(sheet1.cell_value(0, 1), "Street")
 
-    def test_generate_pattern_with_many2one_fields(self):
+    def test_generate_template_for_pattern_with_many2one_fields(self):
         self.ir_exports.export_fields[0:3].unlink()
         self.ir_exports.export_fields[1].unlink()
-        self.ir_exports.generate_pattern()
+        self.ir_exports.generate_template_for_pattern()
         decoded_data = base64.b64decode(self.ir_exports.pattern_file)
         wb = open_workbook(file_contents=decoded_data)
         self.assertEqual(len(wb.sheets()), 2)
@@ -72,7 +72,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
             else:
                 self.assertFalse(export_line.is_many2many)
 
-    def test_generate_pattern_is_many2many(self):
+    def test_generate_template_for_pattern_is_many2many(self):
         """
         Ensure the is_many2many boolean field on the ir.exports.line
         is correctly set.
@@ -80,7 +80,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         self._check_is_many2many(self.ir_exports.export_fields)
         self._check_is_many2many(self.ir_exports_m2m.export_fields)
 
-    def test_generate_pattern_with_many2many_select_tab(self):
+    def test_generate_template_for_pattern_with_many2many_select_tab(self):
         """
         Ensure there is a second tab about companies and ensure the content
         is correct.
@@ -90,7 +90,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
                 export_line.unlink()
         # Ensure still at least 1 line!
         self.assertTrue(self.ir_exports_m2m.export_fields)
-        self.ir_exports_m2m.generate_pattern()
+        self.ir_exports_m2m.generate_template_for_pattern()
         decoded_data = base64.b64decode(self.ir_exports_m2m.pattern_file)
         wb = open_workbook(file_contents=decoded_data)
         self.assertEqual(len(wb.sheets()), 2)
@@ -104,7 +104,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         for ind, company in enumerate(companies, start=1):
             self.assertEquals(company.name, sheet2.cell_value(ind, 0))
 
-    def test_generate_pattern_with_many2many_fields1(self):
+    def test_generate_template_for_pattern_with_many2many_fields1(self):
         """
         Test the excel generation for M2M fields with 1 occurence.
         Only header part
@@ -114,7 +114,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
                 export_line.unlink()
         # Ensure still at least 1 line!
         self.assertTrue(self.ir_exports_m2m.export_fields)
-        self.ir_exports_m2m.generate_pattern()
+        self.ir_exports_m2m.generate_template_for_pattern()
         decoded_data = base64.b64decode(self.ir_exports_m2m.pattern_file)
         wb = open_workbook(file_contents=decoded_data)
         self.assertEqual(len(wb.sheets()), 2)
@@ -124,7 +124,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         )
         self.assertEquals(column_name, sheet1.cell_value(0, 0))
 
-    def test_generate_pattern_with_many2many_fields2(self):
+    def test_generate_template_for_pattern_with_many2many_fields2(self):
         """
         Test the excel generation for M2M fields with more than 1 occurence.
         Only header part!
@@ -135,7 +135,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         # Ensure still at least 1 line!
         self.assertTrue(self.ir_exports_m2m.export_fields)
         self.ir_exports_m2m.export_fields.write({"number_occurence": 5})
-        self.ir_exports_m2m.generate_pattern()
+        self.ir_exports_m2m.generate_template_for_pattern()
         decoded_data = base64.b64decode(self.ir_exports_m2m.pattern_file)
         wb = open_workbook(file_contents=decoded_data)
         self.assertEqual(len(wb.sheets()), 2)
@@ -146,7 +146,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
             )
             self.assertEquals(column_name, sheet1.cell_value(0, nb))
 
-    def test_generate_pattern_with_many2many_fields3(self):
+    def test_generate_template_for_pattern_with_many2many_fields3(self):
         """
         Test the excel generation for M2M fields with more than 1 occurence.
         Test only the content part
@@ -159,7 +159,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         self.assertTrue(export_fields_m2m)
         export_fields_m2m.write({"number_occurence": nb_occurence})
         users = self.Users.search([])
-        self.ir_exports_m2m._export_with_record(users)
+        self.ir_exports_m2m.create_attachments(users)
         attachment = self._get_attachment(self.ir_exports_m2m)
         expected_attachment_name = "{name}{ext}".format(
             name=self.ir_exports_m2m.name, ext=".xlsx"
@@ -181,9 +181,9 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
             for ind_company in range(ind_already_checked, nb_occurence):
                 self.assertEquals("", sheet1.cell_value(ind, ind_company))
 
-    def test_export_with_record(self):
+    def test_create_attachments(self):
         self.ir_exports.export_fields[4].unlink()
-        self.ir_exports._export_with_record(self.partners)
+        self.ir_exports.create_attachments(self.partners)
         attachment = self._get_attachment(self.ir_exports)
         self.assertEqual(attachment.name, "Partner list.xlsx")
         decoded_data = base64.b64decode(attachment.datas)
@@ -203,7 +203,7 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         self.assertEqual(sheet1.cell_value(3, 3), "US")
 
     def test_export_multi_level_fields(self):
-        self.ir_exports._export_with_record(self.partner_2)
+        self.ir_exports.create_attachments(self.partner_2)
         attachment = self._get_attachment(self.ir_exports)
         self.assertEqual(attachment.name, "Partner list.xlsx")
         decoded_data = base64.b64decode(attachment.datas)
@@ -215,8 +215,8 @@ class TestPatternExport(ExportPatternCommon, SavepointCase):
         self.assertEqual(sheet1.cell_value(1, 3), "US")
         self.assertEqual(sheet1.cell_value(1, 4), "US")
 
-    def test_export_with_record_wizard(self):
-        self.ir_exports.generate_pattern()
+    def test_create_attachments_wizard(self):
+        self.ir_exports.generate_template_for_pattern()
         wiz = self.ExportPatternWizard.with_context(
             active_ids=self.partners.ids, active_model=self.partners._name
         ).create({"model": self.partners._name, "ir_exports_id": self.ir_exports.id})
