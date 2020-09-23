@@ -83,7 +83,7 @@ class IrExports(models.Model):
         for record in records:
             yield self._get_data_to_export_by_record(record, json_parser)
 
-    def json2flatty(self, data):
+    def json2pattern_format(self, data):
         res = {}
         for header in self._get_header():
             try:
@@ -112,7 +112,7 @@ class IrExports(models.Model):
         self.ensure_one()
         record.ensure_one()
         data = record.jsonify(parser)[0]
-        return self.json2flatty(data)
+        return self.json2pattern_format(data)
 
     @api.multi
     def _generate_with_records(self, records):
@@ -234,7 +234,7 @@ class IrExports(models.Model):
             datas = self._read_import_data(attachment_data)
             res = (
                 self.with_context(
-                    load_format="flatty",
+                    load_format="pattern_format",
                     pattern_import_export_model=self.model_id.model,
                 )
                 .env[self.model_id.model]
