@@ -315,7 +315,8 @@ class IrExports(models.Model):
         patterned_import.info = load_result[0]
         patterned_import.info_detail = load_result[1]
         patterned_import.status = load_result[2]
-        return self._notify_user(patterned_import)
+        self._notify_user(patterned_import)
+        return patterned_import
 
     def _notify_user(self, patterned_import_export):
         if patterned_import_export.status == "fail":
