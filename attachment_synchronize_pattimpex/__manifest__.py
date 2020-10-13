@@ -9,7 +9,7 @@
     "maintainers": ["kevinkhao", "sebastienbeau"],
     "license": "AGPL-3",
     "category": "Generic Modules",
-    "depends": ["attachment_synchronize", "pattern_import_export_xlsx"],
+    "depends": ["attachment_synchronize", "pattern_import_export_csv"],
     "data": [
         "views/attachment_queue_views.xml",
         "views/attachment_synchronize_task_views.xml",

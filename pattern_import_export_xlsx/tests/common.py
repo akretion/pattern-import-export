@@ -24,11 +24,6 @@ class ExportPatternExcelCommon(ExportPatternCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env = cls.env(
-            context=dict(
-                cls.env.context, test_queue_job_no_delay=True  # no jobs thanks
-            )
-        )
         cls.ir_export_partner = cls.env["ir.exports"].create(
             {
                 "name": "Partner",

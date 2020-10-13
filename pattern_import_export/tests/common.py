@@ -14,6 +14,11 @@ class ExportPatternCommon(JobMixin):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(
+            context=dict(
+                cls.env.context, test_queue_job_no_delay=True  # no jobs thanks
+            )
+        )
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.partner_1 = cls.env.ref("base.res_partner_1")
         cls.partner_2 = cls.env.ref("base.res_partner_2")

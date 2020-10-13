@@ -26,6 +26,7 @@ class AttachmentQueue(models.Model):
                 "name": self.datas_fname,
                 "attachment_id": self.attachment_id.id,
                 "kind": "import",
+                "export_id": self.export_id.id,
             }
         )
         self.pattimpex_id = patterned_import
@@ -40,7 +41,6 @@ class AttachmentQueue(models.Model):
         self.export_id.with_delay(
             description=description
         )._generate_import_with_pattern_job(patterned_import)
-        self.state = "done"
         self.state_message = "Patterned Import Export and its job has been created"
 
     def _run(self):

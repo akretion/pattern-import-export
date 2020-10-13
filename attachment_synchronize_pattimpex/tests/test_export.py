@@ -17,14 +17,14 @@ class TestSyncPattimpexExport(SyncPattimpexCommon):
         self.registry.leave_test_mode()
         super().tearDown()
 
-    def test_exports_triggered(self):
+    def test_export_triggered(self):
         """ Test the two steps are triggered:
         1. Export the records in correct format (excel)
         2. Create an attachment.queue type with the correct file (attachment)
            and file_type (simple export) """
         pattimpex_before = self.env["patterned.import.export"].search([])
         att_queue_before = self.env["attachment.queue"].search([])
-        self.task_export.service_trigger_exports()
+        self.cron_trigger_export.method_direct_trigger()
         pattimpex_after = self.env["patterned.import.export"].search(
             [("id", "not in", pattimpex_before.ids)]
         )

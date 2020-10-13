@@ -5,19 +5,27 @@ The flows work as follows :
 Imports
 =======
 
-1. A cron calls run_task_import_pattimpex_scheduler() on all synchronization tasks
+attachment_synchronize:
 
-2. attachment.queue of the appropriate type is generated, file is imported
+* A cron calls run_import_scheduler() on all synchronization tasks
 
-3. attachment.queue is executed -> patterned.import.export is generated
+* attachment.queue of the appropriate type is generated, this means the file is imported into an attachment
 
-4. A job is generated that actually imports the synced file into Odoo, using the appropriate patterned export
+* Another cron calls run_export_scheduler() **(which is a misnomer)** -> patterned.import.export is generated
+
+pattern_import_export:
+
+* patterned.import.export imports the file
 
 Exports
 =======
 
-1. A cron triggers service_trigger_exports() for a specific task
+pattern_import_export:
 
-2. pattern.import.export is created, exporting records using domain specified in task -> xlsx
+* A cron triggers service_trigger_exports() for a specific task
 
-3. Another cron triggers run() on the same task (i.e the export of the xlsx to the storage space)
+* pattern.import.export is created, exporting records using domain specified in task -> xlsx
+
+attachment_synchronize:
+
+* A cron triggers run_export_scheduler on the same task (i.e the export of the xlsx to the storage space)
