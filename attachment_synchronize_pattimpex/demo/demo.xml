@@ -4,18 +4,34 @@
         <field name="name">Import from filestore with pattern</field>
         <field name="backend_id" ref="storage_backend.default_storage_backend"/>
         <field name="method_type">import</field>
+        <field name="file_type">import_pattern</field>
         <field name="filepath">test_import_pattimpex</field>
         <field name="pattern">*.csv</field>
-        <field name="export_id" ref="pattern_import_export.demo_export_m2m"/>
+        <field name="export_id" ref="pattern_import_export_csv.demo_export_m2m_csv"/>
     </record>
 
     <record id="export_to_filestore_pattimpex" model="attachment.synchronize.task">
         <field name="name">Export to filestore with pattern</field>
         <field name="backend_id" ref="storage_backend.default_storage_backend"/>
         <field name="method_type">export</field>
+        <field name="file_type">export</field>
         <field name="filepath">test_export_pattimpex</field>
-        <field name="export_id" ref="pattern_import_export.demo_export_m2m"/>
+        <field name="export_id" ref="pattern_import_export_csv.demo_export_m2m_csv"/>
         <field name="domain_pattimpex_export">[('name', 'ilike', 'mitch')]</field>
+    </record>
+
+    <record model="ir.cron" id="cron_run_attachment_synchronize_task_import_step2">
+        <field name='name'>Run attachment tasks import step 2</field>
+        <field name='interval_number'>30</field>
+        <field name='interval_type'>minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="active">False</field>
+        <field name="doall" eval="False" />
+        <field name="model_id" ref="model_attachment_synchronize_task"/>
+        <field name="state">code</field>
+        <field name="code">
+import_task = env.ref("attachment_synchronize_pattimpex.import_from_filestore_pattimpex")
+import_task.run_export()</field>
     </record>
 
     <record model="ir.cron" id="cron_run_task_export_pattimpex">

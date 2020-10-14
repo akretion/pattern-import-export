@@ -9,7 +9,10 @@ class AttachmentQueue(models.Model):
 
     export_id = fields.Many2one("ir.exports")
     file_type = fields.Selection(
-        selection_add=[("import_pattern", "Import using Patterns")]
+        selection_add=[
+            ("import_pattern", "Import using Patterns"),
+            ("export", "Import using Patterns"),
+        ]
     )
     pattimpex_id = fields.Many2one(
         "patterned.import.export",

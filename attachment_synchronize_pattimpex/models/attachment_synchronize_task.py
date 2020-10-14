@@ -16,7 +16,10 @@ class AttachmentSynchronizeTask(models.Model):
     )
     export_id = fields.Many2one("ir.exports", string="Import/Export pattern")
     file_type = fields.Selection(
-        selection_add=[("import_pattern", "Import using Patterns")]
+        selection_add=[
+            ("import_pattern", "Import using Patterns"),
+            ("export", "Import using Patterns"),
+        ]
     )
     # Export part
 
@@ -35,7 +38,6 @@ class AttachmentSynchronizeTask(models.Model):
 
     def _prepare_attachment_vals(self, data, filename):
         vals = super()._prepare_attachment_vals(data, filename)
-        export_id = self.env.context.get("pattern_export_id")
-        if export_id:
-            vals["export_id"] = export_id
+        if self.export_id:
+            vals["export_id"] = self.export_id.id
         return vals
