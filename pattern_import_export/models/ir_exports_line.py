@@ -125,14 +125,6 @@ class IrExportsLine(models.Model):
                     ).format(record.name)
                     raise ValidationError(message)
 
-                for key in record.required_fields.split(","):
-                    if not record[key]:
-                        raise ValidationError(
-                            _("The field {} is empty for the line {}").format(
-                                key, record.name
-                            )
-                        )
-
     @api.multi
     @api.depends("name")
     def _compute_related_level_field(self):
