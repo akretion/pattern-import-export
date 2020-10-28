@@ -10,11 +10,10 @@
     <record model="ir.actions.act_window" id="act_open_pattern_view">
         <field name="name">Import/Export Patterns</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">ir.exports</field>
+        <field name="res_model">pattern.config</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[('is_pattern', '=', True)]</field>
-        <field name="context">{'default_is_pattern': True}</field>
+        <field name="view_id" ref="pattern_import_export.pattern_config_form_view"/>
     </record>
 
     <menuitem id="pattern_menu"
