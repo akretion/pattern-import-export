@@ -1,5 +1,6 @@
 # Copyright 2020 Akretion France (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+import ast
 import base64
 import traceback
 from io import StringIO
@@ -43,6 +44,36 @@ class PatternConfig(models.Model):
     count_pattern_file_pending = fields.Integer(compute="_compute_pattern_file_counts")
     count_pattern_file_success = fields.Integer(compute="_compute_pattern_file_counts")
     pattern_file_ids = fields.One2many("pattern.file", "pattern_config_id")
+
+    def _get_tab_data(self):
+        """
+        :return: iterable of 4-tuples of format:
+        (name, headers, data, origin_col)
+        one tuple for each tab
+        name: sheet name
+        headers: list of strings, each element mapping to one header cell
+        data: list of lists, each element mapping to one row/cells
+        origin_col: position of the column on the main sheet
+        """
+        result = []
+        for itr, rec in enumerate(self.export_fields, start=1):
+            sub_pattern = rec.sub_pattern_config_id
+            if sub_pattern:
+                result += sub_pattern._get_tab_data()
+            if not rec.add_select_tab:
+                continue
+            permitted_records = []
+            model_name = rec.related_model_id.model
+            domain = (
+                rec.tab_filter_id and ast.literal_eval(rec.tab_filter_id.domain)
+            ) or []
+            records_matching_constraint = self.env[model_name].search(domain)
+            permitted_records += records_matching_constraint
+            data = rec._format_tab_records(permitted_records)
+            headers = rec._get_tab_headers()
+            tab_name = rec._get_tab_name()
+            result.append((tab_name, headers, data, itr))
+        return result
 
     def _compute_pattern_file_counts(self):
         for rec in self:

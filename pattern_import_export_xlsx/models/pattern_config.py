@@ -26,7 +26,7 @@ class PatternConfig(models.Model):
         book = openpyxl.Workbook()
         main_sheet = self._build_main_sheet_structure(book)
         self._populate_main_sheet_rows(main_sheet, records)
-        tab_data = self.export_fields._get_tab_data()
+        tab_data = self._get_tab_data()
         self._create_tabs(book, tab_data)
         if len(records.ids) < 1000:
             main_sheet_length = 1000
@@ -71,12 +71,15 @@ class PatternConfig(models.Model):
         """Create additional sheets for export lines with create tab option
         and write all valid choices"""
         for name, headers, data, __ in tab_data:
-            new_sheet = book.create_sheet(name)
-            for col_number, header in enumerate(headers, start=1):
-                new_sheet.cell(row=1, column=col_number, value=header)
-            for row_number, row_data in enumerate(data, start=2):
-                for col_number, cell_data in enumerate(row_data, start=1):
-                    new_sheet.cell(row=row_number, column=col_number, value=cell_data)
+            if name not in book.sheetnames:
+                new_sheet = book.create_sheet(name)
+                for col_number, header in enumerate(headers, start=1):
+                    new_sheet.cell(row=1, column=col_number, value=header)
+                for row_number, row_data in enumerate(data, start=2):
+                    for col_number, cell_data in enumerate(row_data, start=1):
+                        new_sheet.cell(
+                            row=row_number, column=col_number, value=cell_data
+                        )
 
     def _create_validators(self, main_sheet, main_sheet_length, tab_data):
         """Add validators: source permitted records from tab sheets,

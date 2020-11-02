@@ -1,6 +1,5 @@
 # Copyright 2020 Akretion France (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-import ast
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -248,33 +247,6 @@ class IrExportsLine(models.Model):
         if len(name) > 31:
             name = name[0:28] + "..."
         return name
-
-    def _get_tab_data(self):
-        """
-        :return: iterable of 4-tuples of format:
-        (name, headers, data, origin_col)
-        one tuple for each tab
-        name: sheet name
-        headers: list of strings, each element mapping to one header cell
-        data: list of lists, each element mapping to one row/cells
-        origin_col: position of the column on the main sheet
-        """
-        result = []
-        for itr, rec in enumerate(self, start=1):
-            if not rec.add_select_tab:
-                continue
-            permitted_records = []
-            model_name = rec.related_model_id.model
-            domain = (
-                rec.tab_filter_id and ast.literal_eval(rec.tab_filter_id.domain)
-            ) or []
-            records_matching_constraint = self.env[model_name].search(domain)
-            permitted_records += records_matching_constraint
-            data = rec._format_tab_records(permitted_records)
-            headers = rec._get_tab_headers()
-            tab_name = rec._get_tab_name()
-            result.append((tab_name, headers, data, itr))
-        return result
 
     def _get_dict_parser_for_pattern(self):
         parser = OrderedDict()

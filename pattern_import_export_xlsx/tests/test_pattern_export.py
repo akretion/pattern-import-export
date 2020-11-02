@@ -101,6 +101,10 @@ class TestPatternExportExcel(ExportPatternCommon, SavepointCase):
         self._helper_check_cell_values(sheet_tab_2, expected_values_tab_2)
         self._helper_check_cell_values(sheet_tab_3, expected_values_tab_3)
 
+    def test_export_tabs_nested(self):
+        wb = self._helper_get_resulting_wb(self.pattern_config_o2m, self.partners)
+        self.assertTrue(wb[self.tab_name_ignore_one])
+
     def test_export_tabs_name_no_filter(self):
         self.pattern_config.export_fields[3].tab_filter_id = self.env["ir.filters"]
         wb = self._helper_get_resulting_wb(self.pattern_config, self.partners)
@@ -134,6 +138,23 @@ class TestPatternExportExcel(ExportPatternCommon, SavepointCase):
         )
         self.assertEqual(
             str(sheet_base.data_validations.dataValidation[1].cells), "E2:E1000"
+        )
+
+    def test_export_validators_nested(self):
+        wb = self._helper_get_resulting_wb(self.pattern_config_o2m, self.partners)
+        sheet_base = wb["Partner - O2M"]
+        self.assertEqual(
+            sheet_base.data_validations.dataValidation[0].formula1,
+            "='{}'!$A$2:$A$4".format(self.tab_name_ignore_one),
+        )
+        self.assertEqual(
+            str(sheet_base.data_validations.dataValidation[0].cells), "E2:E1000"
+        )
+        self.assertEqual(
+            str(sheet_base.data_validations.dataValidation[1].cells), "H2:H1000"
+        )
+        self.assertEqual(
+            str(sheet_base.data_validations.dataValidation[2].cells), "K2:K1000"
         )
 
     def test_export_m2m_headers(self):
