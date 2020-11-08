@@ -11,7 +11,6 @@
         <field name="name">Import/Export Patterns</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">pattern.config</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="pattern_import_export.pattern_config_tree_view"/>
     </record>
@@ -30,7 +29,6 @@
         <field name="res_model">pattern.file</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('kind', '=', 'import')]</field>
-        <field name="view_type">form</field>
     </record>
 
     <record id="action_pattern_file_exports" model="ir.actions.act_window">
@@ -39,7 +37,6 @@
         <field name="res_model">pattern.file</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('kind', '=', 'export')]</field>
-        <field name="view_type">form</field>
     </record>
 
     <menuitem id="pattern_file_imports_menu"
