@@ -7,7 +7,6 @@ import logging
 from odoo import _, api, models
 from odoo.exceptions import ValidationError
 from odoo.osv import expression
-from odoo.tools import pycompat
 from odoo.tools.misc import CountingStream
 
 from odoo.addons.queue_job.job import job
@@ -15,6 +14,8 @@ from odoo.addons.queue_job.job import job
 from .common import IDENTIFIER_SUFFIX
 
 _logger = logging.getLogger(__name__)
+
+FLOAT_INF = float("inf")
 
 
 def is_not_empty(item):
@@ -190,7 +191,7 @@ class Base(models.AbstractModel):
                 row.pop(key)
 
     @api.model
-    def _extract_records(self, fields_, data, log=lambda a: None):
+    def _extract_records(self, fields_, data, log=lambda a: None, limit=FLOAT_INF):
         pattern_config = self._context.get("pattern_config")
         if pattern_config:
             for idx, row in data:
@@ -200,7 +201,7 @@ class Base(models.AbstractModel):
 
                 yield self._pattern_format2json(row), {"rows": {"from": idx, "to": idx}}
         else:
-            yield from super()._extract_records(fields_, data, log=log)
+            yield from super()._extract_records(fields_, data, log=log, limit=limit)
 
     # PATCH
     # be careful we redifine the broken native code
@@ -231,7 +232,7 @@ class Base(models.AbstractModel):
                 type=kind,
                 record=record,
                 field=field,
-                message=pycompat.text_type(exception.args[0]) % exc_vals,
+                message=str(exception.args[0]) % exc_vals,
             )
             if len(exception.args) > 1 and exception.args[1]:
                 record.update(exception.args[1])

@@ -216,7 +216,6 @@ class PatternConfig(models.Model):
                 "res_id": self.id,
                 "res_model": "pattern.config",
                 "datas": attachment_datas,
-                "datas_fname": name,
                 "kind": "export",
                 "state": "success",
                 "pattern_config_id": self.id,
