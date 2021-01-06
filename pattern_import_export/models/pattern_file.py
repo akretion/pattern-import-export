@@ -67,7 +67,7 @@ class PatternFile(models.Model):
                 ),
                 sticky=True,
             )
-        elif self.state == "done":
+        elif self.state == "success":
             self.env.user.notify_success(
                 message=_(
                     "{} job has finished. \nFor more details: {}".format(
