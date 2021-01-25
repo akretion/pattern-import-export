@@ -2,3 +2,6 @@ odoo14-addon-base_export_manager @ git+https://github.com/OCA/server-ux@refs/pul
 odoo14-addon-base_jsonify @ git+https://github.com/OCA/server-tools@refs/pull/1911/head#subdirectory=setup/base_jsonify
 odoo14-addon-web_notify @ git+https://github.com/OCA/web@refs/pull/1724/head#subdirectory=setup/web_notify
 odoo14-addon-base_sparse_field_list_support @ git+https://github.com/OCA/server-tools@refs/pull/1950/head#subdirectory=setup/base_sparse_field_list_support
+odoo14-addon-attachment_queue @ git+https://github.com/OCA/server-tools@refs/pull/1987/head#subdirectory=setup/attachment_queue
+odoo14-addon-attachment_synchronize @ git+https://github.com/OCA/server-tools@refs/pull/2001/head#subdirectory=setup/attachment_synchronize
+odoo14-addon-storage_backend @ git+https://github.com/OCA/storage@refs/pull/78/head#subdirectory=setup/storage_backend
