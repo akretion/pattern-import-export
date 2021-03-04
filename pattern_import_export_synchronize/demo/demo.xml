@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+
     <record id="import_from_filestore" model="attachment.synchronize.task">
         <field name="name">Import CSVs: Partner list</field>
         <field name="backend_id" ref="storage_backend.default_storage_backend" />
