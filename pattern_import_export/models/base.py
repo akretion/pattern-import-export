@@ -274,7 +274,8 @@ class Base(models.AbstractModel):
                             )
                         )
                     # End of code changed
-                if not self.search([("id", "=", dbid)]):
+                # TODO make a PR for solving active issue see comment in PR 60260
+                if not self.with_context(active_test=False).search([("id", "=", dbid)]):
                     log(
                         dict(
                             extras,
