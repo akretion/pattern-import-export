@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pattern_config_tree_view" model="ir.ui.view">
+        <field name="model">pattern.config</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="base_export_manager.ir_exports_tree_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="string">Pattern config</attribute>
+            </xpath>
+            <xpath expr="//field[@name='resource']" position="after">
+                <field name="export_format" />
+                <field name="count_pattern_file_failed" />
+                <field name="count_pattern_file_pending" />
+                <field name="count_pattern_file_done" />
+            </xpath>
+        </field>
+    </record>
+    <record id="pattern_config_form_view" model="ir.ui.view">
+        <field name="model">pattern.config</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="base_export_manager.ir_exports_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button
+                        name="%(import_pattern_wizard_action)d"
+                        string="Import"
+                        class="oe_highlight"
+                        type="action"
+                        context="{'default_pattern_config_id': id, 'hide_pattern_config_id': True}"
+                    />
+                    <button
+                        name="generate_pattern"
+                        string="Generate Pattern"
+                        class="oe_highlight"
+                        type="object"
+                    />
+                </header>
+            </xpath>
+            <xpath expr="//sheet/group[1]" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button
+                        name="button_open_pattern_file_failed"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-thumbs-o-down"
+                    >
+                        <field
+                            name="count_pattern_file_failed"
+                            widget="statinfo"
+                            string="Fail"
+                        />
+                    </button>
+                    <button
+                        name="button_open_pattern_file_pending"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-spinner"
+                    >
+                        <field
+                            name="count_pattern_file_pending"
+                            widget="statinfo"
+                            string="Pending"
+                        />
+                    </button>
+                    <button
+                        name="button_open_pattern_file_done"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-thumbs-o-up"
+                    >
+                        <field
+                            name="count_pattern_file_done"
+                            widget="statinfo"
+                            string="Success"
+                        />
+                    </button>
+                </div>
+            </xpath>
+            <xpath expr="//sheet/group[1]" position="after">
+                <group name="general_info">
+                    <field name="export_format" required="True" />
+                    <field name="pattern_file" filename="pattern_file_name" />
+                    <field name="pattern_file_name" invisible="1" />
+                    <field name="header_format" />
+                </group>
+            </xpath>
+            <xpath expr="//notebook/page[1]" position="attributes">
+                <attribute name="name">export_fields</attribute>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Configuration" name="config">
+                    <group>
+                        <group name="chunk" string="Chunk Config">
+                            <field name="chunk_size" />
+                            <field name="job_priority" />
+                            <field name="process_multi" />
+                        </group>
+                        <group name="import" string="Import Option">
+                            <field name="purge_one2many" />
+                        </group>
+                        <group name="info" string="Info">
+                            <field name="pattern_last_generation_date" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='field2_id']" position="attributes">
+                <attribute
+                    name="readonly"
+                >'field2_id' in (hidden_fields or '')</attribute>
+                <attribute
+                    name="required"
+                >'field2_id' in (required_fields or '')</attribute>
+            </xpath>
+            <xpath expr="//field[@name='field3_id']" position="attributes">
+                <attribute
+                    name="readonly"
+                >'field3_id' in (hidden_fields or '')</attribute>
+                <attribute
+                    name="required"
+                >'field3_id' in (required_fields or '')</attribute>
+            </xpath>
+            <xpath expr="//field[@name='field4_id']" position="attributes">
+                <attribute
+                    name="readonly"
+                >'field4_id' in (hidden_fields or '')</attribute>
+                <attribute
+                    name="required"
+                >'field4_id' in (required_fields or '')</attribute>
+            </xpath>
+            <xpath expr="//field[@name='field4_id']" position="after">
+                <field name="is_key" />
+                <field name="required_fields" column_invisible="True" />
+                <field name="hidden_fields" column_invisible="True" />
+                <field
+                    name="number_occurence"
+                    required="'number_occurence' in (required_fields or '')"
+                    readonly="'number_occurence' in (hidden_fields or '')"
+                    invisible="'number_occurence' in (hidden_fields or '')"
+                />
+                <field
+                    name="sub_pattern_config_id"
+                    required="'sub_pattern_config_id' in (required_fields or '')"
+                    readonly="'sub_pattern_config_id' in (hidden_fields or '')"
+                    invisible="'sub_pattern_config_id' in (hidden_fields or '')"
+                    domain="[('model_id', '=', related_model_id)]"
+                />
+                <field name="related_model_id" column_invisible="True" />
+                <field name="last_field_id" column_invisible="True" />
+                <field
+                    name="add_select_tab"
+                    invisible="'add_select_tab' in (hidden_fields or '')"
+                    readonly="'add_select_tab' in (hidden_fields or '')"
+                />
+                <field name="related_model_name" column_invisible="True" />
+                <field
+                    name="tab_filter_id"
+                    domain="[('model_id', '=', related_model_name)]"
+                    invisible="'tab_filter_id' in (hidden_fields or '')"
+                    readonly="'tab_filter_id' in (hidden_fields or '')"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

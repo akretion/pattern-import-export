@@ -1,0 +1,59 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: pattern_import_export_import_type
+#: model:ir.model,name:pattern_import_export_import_type.model_base
+msgid "Base"
+msgstr "Base"
+
+#. module: pattern_import_export_import_type
+#: model:ir.model.fields.selection,name:pattern_import_export_import_type.selection__pattern_config__import_type__create_only
+msgid "Creation Only"
+msgstr "Création uniquement"
+
+#. module: pattern_import_export_import_type
+#: model:ir.model.fields,field_description:pattern_import_export_import_type.field_pattern_config__import_type
+msgid "Import Type"
+msgstr "Type d'import"
+
+#. module: pattern_import_export_import_type
+#. odoo-python
+#: code:addons/pattern_import_export_import_type/models/base.py:0
+msgid "Import Type not allowing record creation."
+msgstr "Le type d'import ne permet pas la création d'enregistrements."
+
+#. module: pattern_import_export_import_type
+#. odoo-python
+#: code:addons/pattern_import_export_import_type/models/base.py:0
+msgid "Import Type not allowing updating record."
+msgstr "Le type d'import ne permet pas la mise à jour d'enregistrements."
+
+#. module: pattern_import_export_import_type
+#: model:ir.model,name:pattern_import_export_import_type.model_pattern_chunk
+msgid "Pattern Chunk"
+msgstr "Lot de pattern"
+
+#. module: pattern_import_export_import_type
+#: model:ir.model,name:pattern_import_export_import_type.model_pattern_config
+msgid "Pattern Config"
+msgstr "Configuration du pattern"
+
+#. module: pattern_import_export_import_type
+#: model:ir.model.fields.selection,name:pattern_import_export_import_type.selection__pattern_config__import_type__update_only
+msgid "Update Only"
+msgstr "Mise à jour uniquement"
+
+#. module: pattern_import_export_import_type
+#: model:ir.model.fields.selection,name:pattern_import_export_import_type.selection__pattern_config__import_type__update_and_creation
+msgid "Update and Creation"
+msgstr "Mise à jour et création"

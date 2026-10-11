@@ -1,0 +1,111 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: pattern_import_export_custom_header
+#: model_terms:ir.ui.view,arch_db:pattern_import_export_custom_header.custom_header_pattern_config_form_view
+msgid ""
+"<strong>- Leave blank to keep the initial header value.<br/>- Add a new line"
+" to create empty column.</strong>"
+msgstr ""
+"<strong>- Laisser vide pour garder l'entête initial.<br/>- Ajouter une ligne"
+" pour créer une colonne vide.</strong>"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields.selection,name:pattern_import_export_custom_header.selection__pattern_config__header_format__custom
+msgid "Custom"
+msgstr "Entête Personnalisé"
+
+#. module: pattern_import_export_custom_header
+#: model_terms:ir.ui.view,arch_db:pattern_import_export_custom_header.custom_header_pattern_config_form_view
+msgid "Custom Header"
+msgstr "Entête Personnalisé"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__custom_name
+msgid "Custom Header Name"
+msgstr "Nom Entête Personnalisé"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_config__custom_header_ids
+msgid "Custom Header names"
+msgstr "Noms Entêtes Personnalisés"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__display_name
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: pattern_import_export_custom_header
+#: model_terms:ir.ui.view,arch_db:pattern_import_export_custom_header.custom_header_pattern_config_form_view
+msgid "Generate headers"
+msgstr "Générer Entêtes"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_config__header_format
+msgid "Header Format"
+msgstr "Format de l'en-tête"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__id
+msgid "ID"
+msgstr "ID"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__initial_header_name
+msgid "Initial Header Name"
+msgstr "Nom Entête Initial"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__write_uid
+msgid "Last Updated by"
+msgstr "Mis à jour par"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__write_date
+msgid "Last Updated on"
+msgstr "Mis à jour le"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__pattern_id
+msgid "Pattern"
+msgstr "Pattern"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model,name:pattern_import_export_custom_header.model_pattern_config
+msgid "Pattern Config"
+msgstr "Configuration du pattern"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model,name:pattern_import_export_custom_header.model_pattern_custom_header
+msgid "Pattern custom header"
+msgstr "En-tête personnalisé du pattern"
+
+#. module: pattern_import_export_custom_header
+#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__sequence
+msgid "Sequence"
+msgstr "Séquence"

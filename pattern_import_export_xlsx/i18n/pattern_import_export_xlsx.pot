@@ -1,0 +1,69 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pattern_import_export_xlsx
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-11 10:32+0000\n"
+"PO-Revision-Date: 2026-10-11 10:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pattern_import_export_xlsx
+#. odoo-python
+#: code:addons/pattern_import_export_xlsx/models/pattern_file.py:0
+msgid "#Error"
+msgstr ""
+
+#. module: pattern_import_export_xlsx
+#: model:ir.model,name:pattern_import_export_xlsx.model_pattern_file
+msgid "Attachment with pattern file metadata"
+msgstr ""
+
+#. module: pattern_import_export_xlsx
+#: model:ir.model.fields.selection,name:pattern_import_export_xlsx.selection__pattern_config__export_format__xlsx
+msgid "Excel"
+msgstr ""
+
+#. module: pattern_import_export_xlsx
+#: model:ir.model.fields,field_description:pattern_import_export_xlsx.field_pattern_config__export_format
+msgid "Export Format"
+msgstr ""
+
+#. module: pattern_import_export_xlsx
+#: model:ir.model.fields.selection,name:pattern_import_export_xlsx.selection__pattern_config__tab_to_import__first
+msgid "First"
+msgstr ""
+
+#. module: pattern_import_export_xlsx
+#: model:ir.model.fields.selection,name:pattern_import_export_xlsx.selection__pattern_config__tab_to_import__match_name
+msgid "Match Name"
+msgstr ""
+
+#. module: pattern_import_export_xlsx
+#: model:ir.model,name:pattern_import_export_xlsx.model_pattern_config
+msgid "Pattern Config"
+msgstr ""
+
+#. module: pattern_import_export_xlsx
+#. odoo-python
+#: code:addons/pattern_import_export_xlsx/models/pattern_file.py:0
+msgid "Please select a tab to import on the pattern"
+msgstr ""
+
+#. module: pattern_import_export_xlsx
+#: model:ir.model.fields,field_description:pattern_import_export_xlsx.field_pattern_config__tab_to_import
+msgid "Tab To Import"
+msgstr ""
+
+#. module: pattern_import_export_xlsx
+#. odoo-python
+#: code:addons/pattern_import_export_xlsx/models/pattern_file.py:0
+msgid "The file do not contain tab with the name %s"
+msgstr ""

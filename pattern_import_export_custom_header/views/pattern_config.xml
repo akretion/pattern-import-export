@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="custom_header_pattern_config_form_view" model="ir.ui.view">
+        <field name="model">pattern.config</field>
+        <field name="inherit_id" ref="pattern_import_export.pattern_config_form_view" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page
+                    name="custom_header_page"
+                    string="Custom Header"
+                    invisible="header_format != 'custom'"
+                >
+                    <group>
+                        <button
+                            string="Generate headers"
+                            type="object"
+                            name="generate_custom_header_field"
+                        />
+                    </group>
+                    <group invisible="not custom_header_ids">
+                        <div style="color:#7c7bad;">
+                            <strong>- Leave blank to keep the initial header value.<br
+                            />- Add a new line to create empty column.</strong>
+                        </div>
+                    </group>
+                    <field name="custom_header_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="initial_header_name" readonly="1" />
+                            <field
+                                name="custom_name"
+                                required="not initial_header_name"
+                            />
+                        </list>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>
