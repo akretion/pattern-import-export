@@ -5,13 +5,14 @@
 {
     "name": "Pattern export custom header",
     "summary": "Allow to use custom headers names in export files",
-    "version": "14.0.1.0.1",
+    "version": "18.0.1.0.0",
     "category": "Extra Tools",
+    "maintainers": ["kev-roche"],
     "website": "https://github.com/Shopinvader/pattern-import-export",
-    "author": "Akretion",
+    "author": "Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "application": False,
-    "installable": False,
+    "installable": True,
     "depends": [
         "pattern_import_export",
     ],

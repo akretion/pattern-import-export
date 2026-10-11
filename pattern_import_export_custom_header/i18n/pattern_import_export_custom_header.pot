@@ -4,8 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-11 10:32+0000\n"
+"PO-Revision-Date: 2026-10-11 10:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -51,7 +53,6 @@ msgid "Custom Header names"
 msgstr ""
 
 #. module: pattern_import_export_custom_header
-#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_config__display_name
 #: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__display_name
 msgid "Display Name"
 msgstr ""
@@ -67,7 +68,6 @@ msgid "Header Format"
 msgstr ""
 
 #. module: pattern_import_export_custom_header
-#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_config__id
 #: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__id
 msgid "ID"
 msgstr ""
@@ -75,12 +75,6 @@ msgstr ""
 #. module: pattern_import_export_custom_header
 #: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header__initial_header_name
 msgid "Initial Header Name"
-msgstr ""
-
-#. module: pattern_import_export_custom_header
-#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_config____last_update
-#: model:ir.model.fields,field_description:pattern_import_export_custom_header.field_pattern_custom_header____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: pattern_import_export_custom_header

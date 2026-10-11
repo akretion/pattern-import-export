@@ -8,7 +8,7 @@
                 <page
                     name="custom_header_page"
                     string="Custom Header"
-                    attrs="{'invisible': [('header_format', '!=', 'custom')]}"
+                    invisible="header_format != 'custom'"
                 >
                     <group>
                         <button
@@ -17,20 +17,21 @@
                             name="generate_custom_header_field"
                         />
                     </group>
-                        <group attrs="{'invisible':[('custom_header_ids','=', [])]}">
-                         <div style="color:#7c7bad;"><strong
-                            >- Leave blank to keep the initial header value.<br
-                                />- Add a new line to create empty column.</strong></div>
+                    <group invisible="not custom_header_ids">
+                        <div style="color:#7c7bad;">
+                            <strong>- Leave blank to keep the initial header value.<br
+                            />- Add a new line to create empty column.</strong>
+                        </div>
                     </group>
                     <field name="custom_header_ids">
-                        <tree editable="bottom">
+                        <list editable="bottom">
                             <field name="sequence" widget="handle" />
                             <field name="initial_header_name" readonly="1" />
                             <field
                                 name="custom_name"
-                                attrs="{'required': [('initial_header_name', '=', False)]}"
+                                required="not initial_header_name"
                             />
-                        </tree>
+                        </list>
                     </field>
                 </page>
             </notebook>

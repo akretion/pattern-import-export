@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models
+from odoo.fields import Command
 
 
 class PatternConfig(models.Model):
@@ -48,14 +49,7 @@ class PatternConfig(models.Model):
         self.write(
             {
                 "custom_header_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "sequence": seq,
-                            "initial_header_name": name,
-                        },
-                    )
+                    Command.create({"sequence": seq, "initial_header_name": name})
                     for seq, name in enumerate(header, start=start)
                 ]
             }
@@ -70,7 +64,7 @@ class PatternCustomHeader(models.Model):
     sequence = fields.Integer()
     name = fields.Char(compute="_compute_name")
     custom_name = fields.Char(string="Custom Header Name")
-    initial_header_name = fields.Char(string="Initial Header Name")
+    initial_header_name = fields.Char()
     pattern_id = fields.Many2one("pattern.config", required=True)
 
     def _compute_name(self):

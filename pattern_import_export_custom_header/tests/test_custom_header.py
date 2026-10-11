@@ -2,12 +2,12 @@
 # @author Kévin Roche <kevin.roche@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 from odoo.addons.pattern_import_export.tests.common import PatternCommon
 
 
-class TestCustomHeader(PatternCommon, SavepointCase):
+class TestCustomHeader(PatternCommon, TransactionCase):
     def _get_data(self, pattern_config, records):
         return pattern_config._get_data_to_export(records)
 
@@ -166,7 +166,7 @@ class TestCustomHeader(PatternCommon, SavepointCase):
             },
             {
                 "custom_1": self.partner_2.id,
-                "custom_2": "Deco Addict",
+                "custom_2": "Acme Corporation",
                 "custom_3": "77 Santa Barbara Rd",
                 "custom_4": "US",
                 "custom_5": "Desk Manufacturers",
@@ -181,7 +181,7 @@ class TestCustomHeader(PatternCommon, SavepointCase):
                 "addition 1": None,
             },
         ]
-        for result, expected_result in zip(results, expected_results):
+        for result, expected_result in zip(results, expected_results, strict=False):
             self.assertDictEqual(expected_result, result)
 
     def test_7_data_export_custom_header_in_different_order(self):
@@ -220,7 +220,7 @@ class TestCustomHeader(PatternCommon, SavepointCase):
                 "custom_4": "Desk Manufacturers",
                 "custom_3": "US",
                 "custom_2": "77 Santa Barbara Rd",
-                "custom_1": "Deco Addict",
+                "custom_1": "Acme Corporation",
             },
             {
                 "custom_0": self.partner_3.id,
@@ -230,5 +230,5 @@ class TestCustomHeader(PatternCommon, SavepointCase):
                 "custom_1": "Gemini Furniture",
             },
         ]
-        for result, expected_result in zip(results, expected_results):
+        for result, expected_result in zip(results, expected_results, strict=False):
             self.assertDictEqual(expected_result, result)
