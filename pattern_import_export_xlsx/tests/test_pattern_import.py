@@ -11,7 +11,7 @@ from unittest.mock import Mock
 # pylint: disable=missing-manifest-dependency
 import openpyxl
 
-from odoo.tests import SavepointCase
+from odoo.tests import TransactionCase
 from odoo.tools import mute_logger
 
 # helper to dump the result of the import into an excel file
@@ -21,7 +21,7 @@ DUMP_OUTPUT = False
 PATH = path.dirname(__file__) + "/fixtures/"
 
 
-class TestPatternImportExcel(SavepointCase):
+class TestPatternImportExcel(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -40,6 +40,9 @@ class TestPatternImportExcel(SavepointCase):
         cls.user_admin = cls.env.ref("base.user_admin")
         cls.user_demo = cls.env.ref("base.user_demo")
         cls.env.cr.commit = Mock()
+        cls.env.ref(
+            "pattern_import_export.job_function_pattern_chunk_run"
+        ).allow_commit = False
 
     @classmethod
     def _load_file(cls, filename, pattern_config_id):
@@ -94,7 +97,7 @@ class TestPatternImportExcel(SavepointCase):
         # check second line
         partner = self.env.ref("base.res_partner_2")
 
-        self.assertEqual(partner.name, "Deco Addict Updated")
+        self.assertEqual(partner.name, "Acme Corporation Updated")
         self.assertEqual(partner.country_id.code, "DE")
 
         self.assertEqual(len(partner.child_ids), 3)
@@ -137,7 +140,7 @@ class TestPatternImportExcel(SavepointCase):
         self.assertEqual(partner.name, "Wood Corner Updated")
 
         partner = self.env.ref("base.res_partner_2")
-        self.assertEqual(partner.name, "Deco Addict Updated")
+        self.assertEqual(partner.name, "Acme Corporation Updated")
 
         partner = self.env["res.partner"].search(
             [("email", "=", "akretion-pattern@example.com")]
@@ -166,7 +169,7 @@ class TestPatternImportExcel(SavepointCase):
         self.assertEqual(partner.name, "Wood Corner Updated")
 
         partner = self.env.ref("base.res_partner_2")
-        self.assertEqual(partner.name, "Deco Addict Updated")
+        self.assertEqual(partner.name, "Acme Corporation Updated")
 
         # Last line should not have been imported as
         # odoo break when there is too many error
@@ -183,12 +186,12 @@ class TestPatternImportExcel(SavepointCase):
         self.assertIsNone(ws["A3"].value)
 
         for idx in range(4, 13):
-            self.assertEqual("'Contacts require a name'", ws["A%s" % idx].value)
+            self.assertEqual("'Contacts require a name'", ws[f"A{idx}"].value)
         for idx in range(13, 21):
             self.assertEqual(
                 "Found more than 10 errors and more than one error per 10 records, "
                 "interrupted to avoid showing too many errors.",
-                ws["A%s" % idx].value,
+                ws[f"A{idx}"].value,
             )
         self.assertIsNone(ws["A21"].value)
 
@@ -207,7 +210,7 @@ class TestPatternImportExcel(SavepointCase):
         self.assertEqual(partner.name, "Wood Corner Updated")
 
         partner = self.env.ref("base.res_partner_2")
-        self.assertEqual(partner.name, "Deco Addict Updated")
+        self.assertEqual(partner.name, "Acme Corporation Updated")
 
         # Last line should have been imported as
         # we have chunk of 5 so we can not have 10 error
@@ -223,7 +226,7 @@ class TestPatternImportExcel(SavepointCase):
         self.assertIsNone(ws["A2"].value)
         self.assertIsNone(ws["A3"].value)
         for idx in range(4, 20):
-            self.assertEqual("'Contacts require a name'", ws["A%s" % idx].value)
+            self.assertEqual("'Contacts require a name'", ws[f"A{idx}"].value)
         self.assertIsNone(ws["A20"].value)
 
     def test_import_users_ok(self):

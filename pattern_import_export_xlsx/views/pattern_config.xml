@@ -7,7 +7,8 @@
             <field name="purge_one2many" position="after">
                 <field
                     name="tab_to_import"
-                    attrs="{'invisible': [('export_format', '!=', 'xlsx')], 'required': [('export_format', '=', 'xlsx')]}"
+                    invisible="export_format != 'xlsx'"
+                    required="export_format == 'xlsx'"
                 />
             </field>
         </field>

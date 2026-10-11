@@ -14,6 +14,9 @@ CELL_VALUE_EMPTY = None
 
 
 class TestPatternExportExcel(CommonPatternExportExcel, PatternCaseExport):
+    # tests are defined in the PatternCaseExport mixin
+    allow_inherited_tests_method = True
+
     def test_export_tabs(self):
         wb = self._helper_get_resulting_wb(self.pattern_config, self.partners)
         sheets_name = [x.title for x in wb.worksheets]
@@ -46,8 +49,8 @@ class TestPatternExportExcel(CommonPatternExportExcel, PatternCaseExport):
             3
         ].tab_filter_id.name = "CIOIOIOIOIOIOIOIOIOIOIOIOIOI"
         wb = self._helper_get_resulting_wb(self.pattern_config, self.partners)
-        expected_tab_name = "({}) " "CIOIOIOIOIOIOIOIOIOIOIOI...".format(
-            self.filter_countries_1.id
+        expected_tab_name = (
+            f"({self.filter_countries_1.id}) " "CIOIOIOIOIOIOIOIOIOIOIOI..."
         )
         self.assertTrue(wb[expected_tab_name])
 

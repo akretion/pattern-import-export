@@ -3,14 +3,24 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import base64
+from datetime import date, datetime
 from io import BytesIO
 
 import openpyxl
 
-from odoo import _, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 STOP_AFTER_NBR_EMPTY = 10
+
+
+def format_data(value):
+    if isinstance(value, datetime):
+        return fields.Datetime.to_string(value)
+    elif isinstance(value, date):
+        return fields.Date.to_string(value)
+    else:
+        return value
 
 
 class PatternFile(models.Model):
@@ -31,8 +41,9 @@ class PatternFile(models.Model):
                     break
             if not name:
                 raise UserError(
-                    _("The file do not contain tab with the name {}").format(
-                        self.pattern_config_id.name
+                    _(
+                        "The file do not contain tab with the name %s",
+                        self.pattern_config_id.name,
                     )
                 )
         else:
@@ -48,10 +59,10 @@ class PatternFile(models.Model):
             if self.pattern_config_id.nr_of_header_rows == idx + 1:
                 headers = [x.value for x in row]
             elif headers:
-                vals = [x.value for x in row]
+                vals = [format_data(x.value) for x in row]
                 if any(vals):
                     count_empty = 0
-                    item = dict(zip(headers, vals, strict=True))
+                    item = dict(zip(headers, vals, strict=False))
                     # we remove column without header
                     item.pop(None, "")
                     # the position return is the row number

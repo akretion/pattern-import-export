@@ -84,11 +84,9 @@ class PatternConfig(models.Model):
             validation = DataValidation(type="list", formula1=formula_range_src)
             for idx_col in tab["idx_col_validator"]:
                 col_letter_dst = get_column_letter(idx_col)
-                range_dst = "${}${}:${}${}".format(
-                    col_letter_dst,
-                    str(self.row_start_records),
-                    col_letter_dst,
-                    str(max(main_sheet_length, 2)),
+                range_dst = (
+                    f"${col_letter_dst}${self.row_start_records}:"
+                    f"${col_letter_dst}${max(main_sheet_length, 2)}"
                 )
                 validation.add(range_dst)
             main_sheet.add_data_validation(validation)

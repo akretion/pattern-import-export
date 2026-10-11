@@ -7,7 +7,7 @@
     "category": "Extra Tools",
     "author": "Akretion",
     "maintainers": ["kev-roche", "sebastienbeau"],
-    "website": "https://github.com/Shopinvader/pattern-import-export",
+    "https://github.com/akretion/pattern-import-export",
     "license": "AGPL-3",
     "depends": [
         "jsonifier",
