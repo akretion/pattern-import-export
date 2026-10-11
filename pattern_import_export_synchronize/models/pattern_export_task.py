@@ -40,7 +40,7 @@ class PatternExportTask(models.Model):
         return [
             ("model_name", "=", self._name),
             ("method_name", "=", "_run"),
-            ("records", "ilike", "[{}]".format(self.id)),
+            ("records", "ilike", f"[{self.id}]"),
         ]
 
     def _compute_count_job(self):
@@ -69,7 +69,7 @@ class PatternExportTask(models.Model):
         self.ensure_one()
         context = self._context.copy()
         for state in states:
-            context["search_default_{}".format(state)] = 1
+            context[f"search_default_{state}"] = 1
         return {
             "name": _("Export Job"),
             "view_mode": "tree,form",

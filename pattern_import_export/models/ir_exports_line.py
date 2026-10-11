@@ -265,9 +265,9 @@ class IrExportsLine(models.Model):
                     last_item = last_item[field]
                     last_field = field
                 sub_pattern_fields = rec.sub_pattern_config_id.export_fields
-                last_item[
-                    last_field
-                ] = sub_pattern_fields._get_dict_parser_for_pattern()
+                last_item[last_field] = (
+                    sub_pattern_fields._get_dict_parser_for_pattern()
+                )
         return (False, parser)
 
     def _get_json_parser_for_pattern(self):

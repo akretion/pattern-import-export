@@ -8,7 +8,7 @@
     "version": "18.0.1.0.0",
     "category": "Extra Tools",
     "maintainers": ["kev-roche"],
-    "website": "https://github.com/Shopinvader/pattern-import-export",
+    "website": "https://github.com/akretion/pattern-import-export",
     "author": "Akretion, Odoo Community Association (OCA)",
     "license": "AGPL-3",
     "application": False,

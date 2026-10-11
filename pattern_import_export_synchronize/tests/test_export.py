@@ -1,7 +1,7 @@
 # Copyright 2020 Akretion (http://www.akretion.com).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 # pylint: disable=missing-manifest-dependency
-import mock
+from unittest import mock
 
 from odoo.tests import SavepointCase
 
@@ -44,7 +44,7 @@ class TestExport(SavepointCase):
             {
                 "name": "Foo",
                 "model_id": "res.users",
-                "domain": "[('id', '=', {})]".format(user.id),
+                "domain": f"[('id', '=', {user.id})]",
             }
         )
         exported_user = self.task_export._get_records_to_export()

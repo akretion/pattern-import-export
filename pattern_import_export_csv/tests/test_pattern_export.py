@@ -35,7 +35,7 @@ class TestPatternExportCsv(ExportPatternCsvCommon):
         decoded_data = base64.b64decode(attachment.datas).decode("utf-8")
         if DEBUG_SAVE_EXPORTS:
             full_path = PATH + export.name + ".csv"
-            with open(full_path, "wt") as out:
+            with open(full_path, "w") as out:
                 out.write(decoded_data)
         return self._split_csv_str(decoded_data, export)
 

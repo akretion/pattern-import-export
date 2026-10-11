@@ -7,7 +7,7 @@
     "summary": "Import Type (only update, create or both)",
     "version": "18.0.1.0.0",
     "category": "Extra Tools",
-    "website": "https://github.com/OCA/pattern-import-export",
+    "website": "https://github.com/akretion/pattern-import-export",
     "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["Kev-Roche"],
     "license": "AGPL-3",
