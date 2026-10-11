@@ -83,7 +83,7 @@ class PatternConfig(models.Model):
         domain = expression.AND([[("pattern_config_id", "=", self.id)], domain])
         return {
             "name": _("Pattern files"),
-            "view_mode": "tree,form",
+            "view_mode": "list,form",
             "res_model": "pattern.file",
             "type": "ir.actions.act_window",
             "domain": domain,
@@ -117,11 +117,13 @@ class PatternConfig(models.Model):
             headers.append(
                 dict(
                     zip(
-                        tech_header, self._get_header(use_description=True), strict=True
+                        tech_header,
+                        self._get_header(use_description=True),
+                        strict=False,
                     )
                 )
             )
-        headers.append(dict(zip(tech_header, tech_header, strict=True)))
+        headers.append(dict(zip(tech_header, tech_header, strict=False)))
         return headers
 
     def _get_header(self, use_description=False):
@@ -133,7 +135,7 @@ class PatternConfig(models.Model):
         self.ensure_one()
         header = []
         for export_line in self.export_fields:
-            header.extend(export_line.sudo()._get_header(use_description))
+            header.extend(export_line._get_header(use_description))
         return header
 
     def generate_pattern(self):
@@ -229,7 +231,7 @@ class PatternConfig(models.Model):
         pattern_file_exports = self.env["pattern.file"]
         all_data = self._generate_with_records(records)
         if all_data and self.env.context.get("export_as_attachment", True):
-            for export, attachment_data in zip(self, all_data, strict=True):
+            for export, attachment_data in zip(self, all_data, strict=False):
                 pattern_file_exports |= export._create_pattern_file_export(
                     attachment_data
                 )
@@ -243,21 +245,17 @@ class PatternConfig(models.Model):
         """
         self.ensure_one()
         name = f"{self.name}.{self.export_format}"
-        return (
-            self.env["pattern.file"]
-            .sudo()
-            .create(
-                {
-                    "name": name,
-                    "type": "binary",
-                    "res_id": self.id,
-                    "res_model": "pattern.config",
-                    "datas": attachment_datas,
-                    "kind": "export",
-                    "state": "done",
-                    "pattern_config_id": self.id,
-                }
-            )
+        return self.env["pattern.file"].create(
+            {
+                "name": name,
+                "type": "binary",
+                "res_id": self.id,
+                "res_model": "pattern.config",
+                "datas": attachment_datas,
+                "kind": "export",
+                "state": "done",
+                "pattern_config_id": self.id,
+            }
         )
 
     def _add_update_tabs(self, result, tab_name, tab_vals):

@@ -2,19 +2,23 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from uuid import uuid4
 
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
 
 from .common import PatternCommon
 
 
-class TestPatternImport(PatternCommon, SavepointCase):
+class TestPatternImport(PatternCommon, TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.pattern_config_m2m.export_format = "json"
         cls.pattern_config_o2m.export_format = "json"
         cls.pattern_config.export_format = "json"
+        cls.pattern_config_currency = cls.env.ref(
+            "pattern_import_export.demo_pattern_config_currency"
+        )
+        cls.pattern_config_currency.export_format = "json"
 
     def run_pattern_file(self, pattern_file):
         model = self.env[pattern_file.pattern_config_id.model_id.model].with_context(
@@ -39,6 +43,18 @@ class TestPatternImport(PatternCommon, SavepointCase):
         self.run_pattern_file(pattern_file)
         self.assertEqual(partner.street, "foo")
 
+    def test_update_company_dependent_field(self):
+        unique_name = str(uuid4())
+        partner = self.env["res.partner"].create({"name": unique_name})
+        partner.with_company(self.company1).barcode = "MAIN-COMPANY"
+        data = [{"name#key": unique_name, "barcode": "AWESOME-COMPANY"}]
+        pattern_file = self.create_pattern(self.pattern_config, "import", data)
+        pattern_file.company_id = self.company2
+        self.run_pattern_file(pattern_file)
+        self.assertPatternDone(pattern_file)
+        self.assertEqual(partner.with_company(self.company2).barcode, "AWESOME-COMPANY")
+        self.assertEqual(partner.with_company(self.company1).barcode, "MAIN-COMPANY")
+
     def test_update_with_external_id(self):
         """
         For this test, simulate the case of an update of existing record
@@ -46,9 +62,7 @@ class TestPatternImport(PatternCommon, SavepointCase):
         @return:
         """
         unique_name = str(uuid4())
-        data = [
-            {"id": self.user3.get_external_id().get(self.user3.id), "name": unique_name}
-        ]
+        data = [{"id": self._xmlid(self.user3), "name": unique_name}]
         pattern_file = self.create_pattern(self.pattern_config_m2m, "import", data)
         records = self.run_pattern_file(pattern_file)
         self.assertFalse(records)
@@ -134,15 +148,11 @@ class TestPatternImport(PatternCommon, SavepointCase):
         partner3_name = str(uuid4())
         data = [
             {
-                "id": self.partner_1.get_external_id().get(self.partner_1.id),
+                "id": self._xmlid(self.partner_1),
                 "name": unique_name,
-                "child_ids|1|id": self.partner_2.get_external_id().get(
-                    self.partner_2.id
-                ),
+                "child_ids|1|id": self._xmlid(self.partner_2),
                 "child_ids|1|name": partner2_name,
-                "child_ids|2|id": self.partner_3.get_external_id().get(
-                    self.partner_3.id
-                ),
+                "child_ids|2|id": self._xmlid(self.partner_3),
                 "child_ids|2|name": partner3_name,
             }
         ]
@@ -170,46 +180,22 @@ class TestPatternImport(PatternCommon, SavepointCase):
         user2_name = str(uuid4())
         data = [
             {
-                "id": self.partner_1.get_external_id().get(self.partner_1.id),
+                "id": self._xmlid(self.partner_1),
                 "name": unique_name,
-                "category_id|1|id": self.partner_cat1.get_external_id().get(
-                    self.partner_cat1.id
-                ),
-                "category_id|2|id": self.partner_cat2.get_external_id().get(
-                    self.partner_cat2.id
-                ),
-                "country_id|id": self.country_be.get_external_id().get(
-                    self.country_be.id
-                ),
-                "child_ids|1|id": self.partner_2.get_external_id().get(
-                    self.partner_2.id
-                ),
+                "category_id|1|id": self._xmlid(self.partner_cat1),
+                "category_id|2|id": self._xmlid(self.partner_cat2),
+                "country_id|id": self._xmlid(self.country_be),
+                "child_ids|1|id": self._xmlid(self.partner_2),
                 "child_ids|1|name": user1_name,
-                "child_ids|1|industry_id|id": self.industry1.get_external_id().get(
-                    self.industry1.id
-                ),
-                "child_ids|1|country_id|id": self.country_be.get_external_id().get(
-                    self.country_be.id
-                ),
-                "child_ids|1|category_id|1|id": self.partner_cat1.get_external_id().get(
-                    self.partner_cat1.id
-                ),
-                "child_ids|1|category_id|2|id": self.partner_cat2.get_external_id().get(
-                    self.partner_cat2.id
-                ),
-                "child_ids|2|id": self.partner_3.get_external_id().get(
-                    self.partner_3.id
-                ),
+                "child_ids|1|industry_id|id": self._xmlid(self.industry1),
+                "child_ids|1|country_id|id": self._xmlid(self.country_be),
+                "child_ids|1|category_id|1|id": self._xmlid(self.partner_cat1),
+                "child_ids|1|category_id|2|id": self._xmlid(self.partner_cat2),
+                "child_ids|2|id": self._xmlid(self.partner_3),
                 "child_ids|2|name": user2_name,
-                "child_ids|2|industry_id|id": self.industry2.get_external_id().get(
-                    self.industry2.id
-                ),
-                "child_ids|2|country_id|id": self.country_us.get_external_id().get(
-                    self.country_us.id
-                ),
-                "child_ids|2|category_id|1|id": self.partner_cat2.get_external_id().get(
-                    self.partner_cat2.id
-                ),
+                "child_ids|2|industry_id|id": self._xmlid(self.industry2),
+                "child_ids|2|country_id|id": self._xmlid(self.country_us),
+                "child_ids|2|category_id|1|id": self._xmlid(self.partner_cat2),
             }
         ]
         pattern_file = self.create_pattern(self.pattern_config, "import", data)
@@ -421,7 +407,7 @@ class TestPatternImport(PatternCommon, SavepointCase):
         self.assertEqual(partners[0].name, unique_name)
         self.assertEqual(partners[0].child_ids, partners[1])
 
-    def _helper_o2m_update(self):
+    def _case_o2m_update_no_delete_cascade(self):
         unique_name = str(uuid4())
         partner = self.env["res.partner"].create(
             {
@@ -449,19 +435,53 @@ class TestPatternImport(PatternCommon, SavepointCase):
         self.assertPatternDone(pattern_file)
         return partner, child_1, child_2
 
-    def test_o2m_update_with_purge(self):
+    def _case_o2m_update_with_delete_cascade(self):
+        currency = self.env.ref("base.EUR")
+        currency.write(
+            {
+                "rate_ids": [
+                    (5, 0, 0),
+                    (0, 0, {"name": "1999-12-02", "rate": 1}),
+                    (0, 0, {"name": "2000-01-30", "rate": 2}),
+                ]
+            }
+        )
+        data = [
+            {
+                ".id": currency.id,
+                "rate_ids|1|name#key": "1999-12-02",
+                "rate_ids|1|rate": 1.5,
+                "rate_ids|2|name#key": "2022-01-01",
+                "rate_ids|2|rate": 3,
+            }
+        ]
+        pattern_file = self.create_pattern(self.pattern_config_currency, "import", data)
+        self.run_pattern_file(pattern_file)
+        self.assertPatternDone(pattern_file)
+        return currency
+
+    def test_o2m_update_with_purge_no_delete_cascade(self):
         self.pattern_config.purge_one2many = True
-        partner, child_1, child_2 = self._helper_o2m_update()
+        partner, child_1, child_2 = self._case_o2m_update_no_delete_cascade()
         self.assertEqual(len(partner.child_ids), 3)
         self.assertIn(child_1, partner.child_ids)
         self.assertNotIn(child_2, partner.child_ids)
 
     def test_o2m_update_without_purge(self):
         self.pattern_config.purge_one2many = False
-        partner, child_1, child_2 = self._helper_o2m_update()
+        partner, child_1, child_2 = self._case_o2m_update_no_delete_cascade()
         self.assertEqual(len(partner.child_ids), 4)
         self.assertIn(child_1, partner.child_ids)
         self.assertIn(child_2, partner.child_ids)
+
+    def test_o2m_update_with_purge_with_delete_cascade(self):
+        self.pattern_config_currency.purge_one2many = True
+        currency = self._case_o2m_update_with_delete_cascade()
+        self.assertEqual(len(currency.rate_ids), 2)
+
+    def test_o2m_update_without_purge_with_delete_cascade(self):
+        currency = self._case_o2m_update_with_delete_cascade()
+        self.assertEqual(len(currency.rate_ids), 3)
 
     def test_empty_m2m_with_o2m(self):
         unique_name = str(uuid4())

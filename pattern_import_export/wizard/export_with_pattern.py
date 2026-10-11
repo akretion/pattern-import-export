@@ -12,9 +12,7 @@ class ExportPatternWizard(models.Model):
         default=lambda s: s.env.context.get("active_model", False),
     )
     pattern_config_id = fields.Many2one("pattern.config", string="Export Pattern")
-    no_export_pattern = fields.Boolean(
-        string="No Export Pattern", compute="_compute_no_export_pattern"
-    )
+    no_export_pattern = fields.Boolean(compute="_compute_no_export_pattern")
 
     @api.depends("model")
     def _compute_no_export_pattern(self):
@@ -41,6 +39,10 @@ class ExportPatternWizard(models.Model):
                 self.env.context.get("active_ids", False)
             )
             records.with_delay(
-                description=description
+                description=description,
+                channel=self.env.ref(
+                    "pattern_import_export.channel_pattern_export"
+                ).complete_name,
+                priority=wiz.pattern_config_id.job_priority,
             ).generate_export_with_pattern_job(wiz.pattern_config_id)
         return {}

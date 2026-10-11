@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import json
 from base64 import b64encode
-from contextlib import contextmanager
 from unittest.mock import Mock
 
 from odoo.tests import new_test_user
@@ -17,6 +16,11 @@ class PatternCommon(JobMixin):
     def setUpClass(cls):
         super().setUpClass()
         cls.env.cr.commit = Mock()
+        # With allow_commit, queue_job run the job in a new cursor that can not
+        # see the data created by the test
+        cls.env.ref(
+            "pattern_import_export.job_function_pattern_chunk_run"
+        ).allow_commit = False
         cls.env = cls.env(
             context=dict(
                 cls.env.context,
@@ -97,6 +101,9 @@ class PatternCommon(JobMixin):
         )
         cls.maxDiff = None
 
+    def _xmlid(self, record):
+        return record.get_external_id()[record.id]
+
     def create_pattern(self, config, kind, data):
         return self.env["pattern.file"].create(
             {
@@ -116,18 +123,3 @@ class PatternCommon(JobMixin):
         return self.env["ir.attachment"].search(
             [("res_model", "=", record._name), ("res_id", "=", record.id)], limit=1
         )
-
-    @contextmanager
-    def _mock_read_import_data(self, main_data):
-        """
-        Mock the _read_import_data from Exports to return directly
-        received datafile
-        @return:
-        """
-
-        def _read_import_data(self, datafile):
-            return main_data
-
-        self.env["pattern.config"]._patch_method("_read_import_data", _read_import_data)
-        yield
-        self.env["pattern.config"]._revert_method("_read_import_data")

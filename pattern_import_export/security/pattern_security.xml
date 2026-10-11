@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
     <record model="ir.module.category" id="module_category_pattern_import_export">
         <field name="name">Pattern Import Export</field>
         <field name="sequence">10</field>
@@ -17,5 +16,4 @@
         <field name="users" eval="[(4, ref('base.user_admin'))]" />
         <field name="implied_ids" eval="[(4, ref('group_pattern_user'))]" />
     </record>
-
 </odoo>

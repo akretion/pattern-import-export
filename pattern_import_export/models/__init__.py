@@ -1,4 +1,3 @@
-from . import patch
 from . import pattern_config
 from . import ir_exports_line
 from . import ir_exports
@@ -8,3 +7,4 @@ from . import ir_fields
 from . import pattern_file
 from . import pattern_chunk
 from . import ir_attachment
+from . import fields

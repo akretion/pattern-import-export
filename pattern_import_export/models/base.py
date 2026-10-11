@@ -12,6 +12,7 @@ from .common import IDENTIFIER_SUFFIX
 _logger = logging.getLogger(__name__)
 
 FLOAT_INF = float("inf")
+PATTERN_ERROR = "pattern_error"
 
 
 def is_not_empty(item):
@@ -58,6 +59,10 @@ class Base(models.AbstractModel):
 
     def load(self, fields, data):
         result = super().load(fields, data)
+        if self._context.get("pattern_config"):
+            for message in result["messages"]:
+                if message.get("type") == PATTERN_ERROR:
+                    message["type"] = "error"
         if not result["ids"] and self._context.get("pattern_config", {}).get(
             "record_ids"
         ):
@@ -145,7 +150,7 @@ class Base(models.AbstractModel):
             inherited_field = field.inherited_field
             model_name = inherited_field.model_name
             fieldname = self.env[model_name]._get_subdomain_field(inherited_field)
-            related_field = self._field_inverses[
+            related_field = self.pool.field_inverses[
                 self._fields[self._inherits[model_name]]
             ][0]
             return f"{fieldname}.{related_field.name}"
@@ -176,7 +181,7 @@ class Base(models.AbstractModel):
                 for subitem in res[key]:
                     if is_not_empty(subitem):
                         valid_subitems.append(subitem)
-                        self.env[field._related_comodel_name]._post_process_key(
+                        self.env[field.comodel_name]._post_process_key(
                             subitem, subdomain, not bool(parent_id)
                         )
                 res[key] = valid_subitems
@@ -185,8 +190,10 @@ class Base(models.AbstractModel):
         record = self.with_context(active_test=False).search(domain)
         if len(record) > 1:
             raise ValidationError(
-                _("Too many {} found for the key/value : {}").format(
-                    _(record._description), {k: res[k] for k in ident_keys}
+                _(
+                    "Too many %(model)s found for the key/value : %(values)s",
+                    model=record._description,
+                    values={k: res[k] for k in ident_keys},
                 )
             )
         elif record:
@@ -225,50 +232,66 @@ class Base(models.AbstractModel):
                 row[key] = row[key].strip()
 
     @api.model
-    def _extract_records(self, fields_, data, log=lambda a: None, limit=FLOAT_INF):
-        pattern_config = self._context.get("pattern_config")
-        if pattern_config:
-            for idx, row in data:
-                self._strip_string(row)
-                self._remove_commented_and_empty_columns(row)
-                if not any(row.values()):
-                    continue
+    def _extract_records(self, field_paths, data, log=lambda a: None, limit=FLOAT_INF):
+        if not self._context.get("pattern_config"):
+            yield from super()._extract_records(field_paths, data, log=log, limit=limit)
+            return
+        for idx, row in data:
+            self._strip_string(row)
+            self._remove_commented_and_empty_columns(row)
+            if not any(row.values()):
+                continue
+            yield self._pattern_format2json(row), {"rows": {"from": idx, "to": idx}}
 
-                yield self._pattern_format2json(row), {"rows": {"from": idx, "to": idx}}
+        # WARNING: complex code
+        # As we are in a generator, the following code is executed once all the
+        # rows have been consumed by the loop "for id, xid, record, info in
+        # converted" of BaseModel.load.
+        # Pattern import is a partial import: valid rows are kept and wrong
+        # rows are reported. Native load rollbacks everything as soon as a
+        # message of type "error" exists, so we flush the last batch here and
+        # then hide the errors from the native check. The type is restored
+        # in the load method.
+        self._context["import_flush"]()
+        for message in log.__self__:
+            if message.get("type") == "error":
+                message["type"] = PATTERN_ERROR
 
-                # WARNING: complex code
-                # This feature has been inactivated for v16
-                # it's not something easy to do
-                # and need to be carefully done
-                #
-                # it's about allowing to import working lines
-                # and reporting lines in error
-                # As we are in an generator the following code is executed
-                # after the "for id, xid, record, info in converted:" in model.py:1090
-                # the idea is to call the flush manually for the last line
-                # and set new savepoint so the rollback in case of error
-                # "if any(message['type'] == 'error' for message in messages):"
-                # in model.py:1100
-                # will do nothing
-                # this is a crazy hack but there is no better solution
-                # in V15 we should propose a refactor of load method
-                if data[-1][0] == idx:
-                    self._context["import_flush"]()
-                    # https://github.com/odoo/odoo/pull/76243
-                    # self._cr.execute("RELEASE SAVEPOINT model_load")
-                    # self._cr.execute("SAVEPOINT model_load")
-        else:
-            yield from super()._extract_records(fields_, data, log=log, limit=limit)
+    def _pattern_check_database_id(self, records, log):
+        for record, extras in records:
+            dbid = record.get(".id")
+            if dbid and self._fields["id"].type == "integer":
+                try:
+                    int(dbid)
+                except ValueError:
+                    log(
+                        dict(
+                            extras,
+                            type="error",
+                            field=".id",
+                            message=_("Invalid database identifier '%s'", dbid),
+                        )
+                    )
+                    record.pop(".id")
+            yield record, extras
 
     @api.model
     def _convert_records(self, records, log=lambda a: None):
-        for dbid, xid, record, info in super()._convert_records(records, log=log):
+        if not self._context.get("pattern_config"):
+            yield from super()._convert_records(records, log=log)
+            return
+        # We always search on all records, even inactive ones, as import can be
+        # used to activate records
+        model = self.with_context(active_test=False)
+        records = self._pattern_check_database_id(records, log)
+        for dbid, xid, record, info in super(Base, model)._convert_records(
+            records, log=log
+        ):
             # Note the log method is equal to messages.append
             # so log.__self__ return the messages list
             messages = log.__self__
-            if messages and messages[-1]["rows"] == info["rows"]:
+            if messages and messages[-1].get("rows") == info["rows"]:
                 # we have a message for this item so we skip it from conversion
                 # so the record will be not imported
                 continue
-            else:
-                yield dbid, xid, record, info
+            yield dbid, xid, record, info

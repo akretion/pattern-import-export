@@ -1,0 +1,933 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__number_occurence
+msgid "# Occurence"
+msgstr "Nb d'occurrences"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/pattern_file.py:0
+msgid "%(kind)s job has failed. <br/>For more details: %(details)s"
+msgstr "%(kind)s : la tâche a échoué. <br/>Pour plus de détails : %(details)s"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/pattern_file.py:0
+msgid "%(kind)s job has finished. <br/>For more details: %(details)s"
+msgstr ""
+"%(kind)s : la tâche est terminée. <br/>Pour plus de détails : %(details)s"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/ir_fields.py:0
+msgid ""
+"%(model)s No matching record found for %(domain)s in field '%(field_name)s'"
+msgstr ""
+"%(model)s : aucun enregistrement trouvé pour %(domain)s dans le champ « "
+"%(field_name)s »"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/ir_fields.py:0
+msgid ""
+"%(model)s Too many records found for %(domain)s in field '%(field_name)s'"
+msgstr ""
+"%(model)s : trop d'enregistrements trouvés pour %(domain)s dans le champ « "
+"%(field_name)s »"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.view_export_with_pattern_wizard
+msgid ""
+"<span invisible=\"not no_export_pattern\" colspan=\"2\">\n"
+"                        There is no export pattern for this object !<br/>\n"
+"                        Please go to the menu .... and create one.\n"
+"                    </span>"
+msgstr ""
+"<span invisible=\"not no_export_pattern\" colspan=\"2\">\n"
+"                        Il n'existe aucun pattern d'export pour cet objet !<br/>\n"
+"                        Veuillez aller dans le menu Import/Export > Patterns pour en créer un.\n"
+"                    </span>"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.import_pattern_wizard_form_view
+msgid ""
+"<strong>Please note that update on relational fields (M2M/O2M) will delete "
+"and replace existing values</strong>"
+msgstr ""
+"<strong>Attention : la mise à jour des champs relationnels (M2M/O2M) "
+"supprime et remplace les valeurs existantes</strong>"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__access_token
+msgid "Access Token"
+msgstr "Jeton d'accès"
+
+#. module: pattern_import_export
+#: model:ir.model,name:pattern_import_export.model_ir_actions_actions
+msgid "Actions"
+msgstr "Actions"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__add_select_tab
+msgid "Add Select Tab"
+msgstr "Ajouter un onglet de sélection"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_file_view_form
+msgid "Are you sure to reimport the current file?"
+msgstr "Voulez-vous vraiment réimporter ce fichier ?"
+
+#. module: pattern_import_export
+#: model:ir.model,name:pattern_import_export.model_ir_attachment
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__attachment_id
+msgid "Attachment"
+msgstr "Pièce jointe"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__local_url
+msgid "Attachment URL"
+msgstr "URL de la pièce jointe"
+
+#. module: pattern_import_export
+#: model:ir.model,name:pattern_import_export.model_pattern_file
+msgid "Attachment with pattern file metadata"
+msgstr "Pièce jointe avec les métadonnées du fichier pattern"
+
+#. module: pattern_import_export
+#: model:ir.model,name:pattern_import_export.model_base
+msgid "Base"
+msgstr "Base"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.import_pattern_wizard_form_view
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.view_export_with_pattern_wizard
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__checksum
+msgid "Checksum/SHA1"
+msgstr "Somme de contrôle/SHA1"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.import_pattern_wizard_form_view
+msgid "Choose a file to import..."
+msgstr "Choisissez un fichier à importer..."
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__chunk_ids
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_chunk_view_form
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_file_view_form
+msgid "Chunk"
+msgstr "Lot"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
+msgid "Chunk Config"
+msgstr "Configuration des lots"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__chunk_size
+msgid "Chunk Size"
+msgstr "Taille des lots"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__company_id
+msgid "Company"
+msgstr "Société"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
+msgid "Configuration"
+msgstr "Configuration"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__count_pattern_file_done
+msgid "Count Pattern File Done"
+msgstr "Nombre de fichiers pattern terminés"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__count_pattern_file_failed
+msgid "Count Pattern File Failed"
+msgstr "Nombre de fichiers pattern en échec"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__count_pattern_file_pending
+msgid "Count Pattern File Pending"
+msgstr "Nombre de fichiers pattern en attente"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard__create_uid
+#: model:ir.model.fields,field_description:pattern_import_export.field_import_pattern_wizard__create_uid
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__create_uid
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__create_uid
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard__create_date
+#: model:ir.model.fields,field_description:pattern_import_export.field_import_pattern_wizard__create_date
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__create_date
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__create_date
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__global_resolver_id
+msgid "Custom global resolver"
+msgstr "Résolveur global personnalisé"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__data
+msgid "Data"
+msgstr "Données"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__db_datas
+msgid "Database Data"
+msgstr "Données de la base de données"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,help:pattern_import_export.field_pattern_config__model_id
+msgid "Database model to export."
+msgstr "Modèle de la base de données à exporter."
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__date_done
+msgid "Date Done"
+msgstr "Date d'achèvement"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,help:pattern_import_export.field_pattern_config__chunk_size
+msgid "Define the size of the chunk"
+msgstr "Définit la taille des lots"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__description
+msgid "Description"
+msgstr "Description"
+
+#. module: pattern_import_export
+#: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_config__header_format__description_and_tech
+msgid "Description + Technical"
+msgstr "Description + Technique"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,help:pattern_import_export.field_ir_exports_line__is_key
+msgid ""
+"Determine if this field is considered as key to update existing record.\n"
+"Please note that the field should have a unique constraint."
+msgstr ""
+"Indique si ce champ sert de clé pour mettre à jour les enregistrements existants.\n"
+"Le champ doit avoir une contrainte d'unicité."
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard__display_name
+#: model:ir.model.fields,field_description:pattern_import_export.field_import_pattern_wizard__display_name
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__display_name
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__display_name
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__display_name
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: pattern_import_export
+#: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_chunk__state__done
+#: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_file__state__done
+msgid "Done"
+msgstr "Terminé"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/pattern_file.py:0
+msgid "Download"
+msgstr "Télécharger"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/pattern_file.py:0
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__export_id
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.view_export_with_pattern_wizard
+msgid "Export"
+msgstr "Export"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__export_format
+msgid "Export Format"
+msgstr "Format d'export"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__export_fields
+msgid "Export ID"
+msgstr "ID Export"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__name
+msgid "Export Name"
+msgstr "Nom d'export"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard__pattern_config_id
+msgid "Export Pattern"
+msgstr "Pattern d'export"
+
+#. module: pattern_import_export
+#: model:ir.actions.act_window,name:pattern_import_export.action_export_with_pattern
+msgid "Export With Pattern"
+msgstr "Exporter avec un pattern"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__pattern_config_id
+msgid "Export pattern"
+msgstr "Pattern d'export"
+
+#. module: pattern_import_export
+#: model:ir.model,name:pattern_import_export.model_export_pattern_wizard
+msgid "Export pattern wizard"
+msgstr "Assistant d'export avec pattern"
+
+#. module: pattern_import_export
+#: model:ir.model,name:pattern_import_export.model_ir_exports
+msgid "Exports"
+msgstr "Exports"
+
+#. module: pattern_import_export
+#: model:ir.model,name:pattern_import_export.model_ir_exports_line
+msgid "Exports Line"
+msgstr "Ligne d'export"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
+msgid "Fail"
+msgstr "Échec"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/ir_fields.py:0
+msgid ""
+"Fail to process field '%%(field)s'.\n"
+"No value found for model '%(model)s' with the field '%(subfield)s' and the value '%(value)s'"
+msgstr ""
+"Impossible de traiter le champ « %%(field)s ».\n"
+"Aucune valeur trouvée pour le modèle « %(model)s » avec le champ « %(subfield)s » et la valeur « %(value)s »"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/ir_fields.py:0
+msgid ""
+"Fail to process field '%%(field)s'.\n"
+"Too many records found for '%(model)s' with the field '%(subfield)s' and the value '%(value)s'"
+msgstr ""
+"Impossible de traiter le champ « %%(field)s ».\n"
+"Trop d'enregistrements trouvés pour « %(model)s » avec le champ « %(subfield)s » et la valeur « %(value)s »"
+
+#. module: pattern_import_export
+#: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_chunk__state__failed
+#: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_file__state__failed
+msgid "Failed"
+msgstr "Échec"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/pattern_file.py:0
+msgid "Failed to create the chunk: %s"
+msgstr "Impossible de créer le lot : %s"
+
+#. module: pattern_import_export
+#: model:ir.model,name:pattern_import_export.model_ir_fields_converter
+msgid "Fields Converter"
+msgstr "Convertisseur de champs"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__datas
+msgid "File Content (base64)"
+msgstr "Contenu du fichier (base64)"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__raw
+msgid "File Content (raw)"
+msgstr "Contenu du fichier (brut)"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__file_size
+msgid "File Size"
+msgstr "Taille de fichier"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_import_pattern_wizard__import_file
+msgid "File to import"
+msgstr "Fichier à importer"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_import_pattern_wizard__filename
+msgid "Filename"
+msgstr "Nom du fichier"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_chunk_view_form
+msgid "Force manual run"
+msgstr "Forcer l'exécution manuelle"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
+msgid "Generate Pattern"
+msgstr "Générer le pattern"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/wizard/export_with_pattern.py:0
+msgid ""
+"Generate export '{model}' with export pattern '{export_name}' using format "
+"{format}"
+msgstr ""
+"Générer l'export « {model} » avec le pattern « {export_name} » au format "
+"{format}"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__header_format
+msgid "Header Format"
+msgstr "Format de l'en-tête"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__hidden_fields
+msgid "Hidden Fields"
+msgstr "Champs masqués"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard__id
+#: model:ir.model.fields,field_description:pattern_import_export.field_import_pattern_wizard__id
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__id
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__id
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__id
+msgid "ID"
+msgstr "ID"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,help:pattern_import_export.field_pattern_config__global_resolver_id
+msgid "If set, will apply the global resolver to the result"
+msgstr "Si renseigné, applique le résolveur global au résultat"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,help:pattern_import_export.field_pattern_config__language_agnostic
+msgid ""
+"If set, will set the lang to False when exporting lines without lang, "
+"otherwise it uses the lang in the given context to export these fields"
+msgstr ""
+"Si coché, la langue est mise à False pour exporter les lignes sans langue, "
+"sinon la langue du contexte est utilisée pour exporter ces champs"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__image_height
+msgid "Image Height"
+msgstr "Hauteur de l'image"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__image_src
+msgid "Image Src"
+msgstr "Source de l'image"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__image_width
+msgid "Image Width"
+msgstr "Largeur de l'image"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/pattern_file.py:0
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.import_pattern_wizard_form_view
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
+msgid "Import"
+msgstr "Import"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
+msgid "Import Option"
+msgstr "Options d'import"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_import_pattern_wizard__pattern_config_id
+msgid "Import pattern"
+msgstr "Pattern d'import"
+
+#. module: pattern_import_export
+#: model:ir.model,name:pattern_import_export.model_import_pattern_wizard
+msgid "Import pattern wizard"
+msgstr "Assistant d'import avec pattern"
+
+#. module: pattern_import_export
+#: model:ir.actions.act_window,name:pattern_import_export.import_pattern_wizard_action
+msgid "Import with pattern"
+msgstr "Importer avec un pattern"
+
+#. module: pattern_import_export
+#: model:ir.ui.menu,name:pattern_import_export.import_export_menu_root
+msgid "Import/Export"
+msgstr "Import/Export"
+
+#. module: pattern_import_export
+#: model:ir.actions.act_window,name:pattern_import_export.act_open_pattern_config_view
+msgid "Import/Export Patterns"
+msgstr "Patterns d'import/export"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__index_content
+msgid "Indexed Content"
+msgstr "Contenu indexé"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__info
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
+msgid "Info"
+msgstr "Info"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/base.py:0
+msgid "Invalid database identifier '%s'"
+msgstr "Identifiant de base de données invalide « %s »"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__is_key
+msgid "Is Key"
+msgstr "Est une clé"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__public
+msgid "Is public document"
+msgstr "Est un document public"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__job_priority
+msgid "Job Priority"
+msgstr "Priorité de la tâche"
+
+#. module: pattern_import_export
+#: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_config__export_format__json
+msgid "Json"
+msgstr "Json"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__kind
+msgid "Kind"
+msgstr "Nature"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__language_agnostic
+msgid "Language Agnostic"
+msgstr "Indépendant de la langue"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__last_field_id
+msgid "Last Field"
+msgstr "Dernier champ"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard__write_uid
+#: model:ir.model.fields,field_description:pattern_import_export.field_import_pattern_wizard__write_uid
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__write_uid
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__write_uid
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__write_uid
+msgid "Last Updated by"
+msgstr "Mis à jour par"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard__write_date
+#: model:ir.model.fields,field_description:pattern_import_export.field_import_pattern_wizard__write_date
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__write_date
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__write_date
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__write_date
+msgid "Last Updated on"
+msgstr "Mis à jour le"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__level
+msgid "Level"
+msgstr "Niveau"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.format_message
+msgid "Message"
+msgstr "Message"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__messages
+msgid "Messages"
+msgstr "Messages"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__mimetype
+msgid "Mime Type"
+msgstr "Type de mime"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__related_model_name
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__model_id
+msgid "Model"
+msgstr "Modèle"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard__model
+msgid "Model to export"
+msgstr "Modèle à exporter"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,help:pattern_import_export.field_pattern_config__resource
+msgid "Model's technical name."
+msgstr "Nom technique du modèle."
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__nbr_error
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__nbr_error
+msgid "Nbr Error"
+msgstr "Nb d'erreurs"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__nbr_item
+msgid "Nbr Item"
+msgstr "Nb d'éléments"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__nbr_success
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__nbr_success
+msgid "Nbr Success"
+msgstr "Nb de succès"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_file_view_form
+msgid "New Import"
+msgstr "Nouvel import"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard__no_export_pattern
+msgid "No Export Pattern"
+msgstr "Aucun pattern d'export"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,help:pattern_import_export.field_ir_exports_line__number_occurence
+msgid ""
+"Number of column to create to display this Many2many or One2many field.\n"
+"Value should be >= 1"
+msgstr ""
+"Nombre de colonnes à créer pour afficher ce champ Many2many ou One2many.\n"
+"La valeur doit être >= 1"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/ir_exports_line.py:0
+msgid ""
+"Number of occurence for Many2many or One2many fields should be greater or equals to 1.\n"
+"The line %(name)s have an invalid number of occurence:\n"
+msgstr ""
+"Le nombre d'occurrences des champs Many2many ou One2many doit être supérieur ou égal à 1.\n"
+"La ligne %(name)s a un nombre d'occurrences invalide :\n"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__original_id
+msgid "Original (unoptimized, unresized) attachment"
+msgstr "Pièce jointe d'origine (non optimisée, non redimensionnée)"
+
+#. module: pattern_import_export
+#: model:ir.model,name:pattern_import_export.model_pattern_chunk
+msgid "Pattern Chunk"
+msgstr "Lot de pattern"
+
+#. module: pattern_import_export
+#: model:ir.model,name:pattern_import_export.model_pattern_config
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports__pattern_config_id
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__pattern_config_id
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__pattern_config_id
+msgid "Pattern Config"
+msgstr "Configuration du pattern"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_attachment__pattern_file_ids
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__pattern_file_id
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__pattern_file_ids
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__pattern_file_ids
+msgid "Pattern File"
+msgstr "Fichier pattern"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__pattern_file_name
+msgid "Pattern File Name"
+msgstr "Nom du fichier pattern"
+
+#. module: pattern_import_export
+#: model:ir.module.category,name:pattern_import_export.module_category_pattern_import_export
+msgid "Pattern Import Export"
+msgstr "Pattern Import Export"
+
+#. module: pattern_import_export
+#: model:res.groups,name:pattern_import_export.group_pattern_manager
+msgid "Pattern Manager"
+msgstr "Responsable des patterns"
+
+#. module: pattern_import_export
+#: model:res.groups,name:pattern_import_export.group_pattern_user
+msgid "Pattern User"
+msgstr "Utilisateur des patterns"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_tree_view
+msgid "Pattern config"
+msgstr "Configuration du pattern"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__pattern_file
+msgid "Pattern file"
+msgstr "Fichier pattern"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/pattern_config.py:0
+msgid "Pattern files"
+msgstr "Fichiers pattern"
+
+#. module: pattern_import_export
+#: model:ir.actions.act_window,name:pattern_import_export.action_pattern_file_exports
+#: model:ir.ui.menu,name:pattern_import_export.pattern_file_export_menu
+msgid "Pattern files (exports)"
+msgstr "Fichiers pattern (exports)"
+
+#. module: pattern_import_export
+#: model:ir.actions.act_window,name:pattern_import_export.action_pattern_file_imports
+#: model:ir.ui.menu,name:pattern_import_export.pattern_file_imports_menu
+msgid "Pattern files (imports)"
+msgstr "Fichiers pattern (imports)"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__pattern_last_generation_date
+msgid "Pattern last generation date"
+msgstr "Date de dernière génération du pattern"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,help:pattern_import_export.field_import_pattern_wizard__pattern_config_id
+msgid ""
+"Pattern used to import this file (it should be the same used for the export)"
+msgstr ""
+"Pattern utilisé pour importer ce fichier (il doit être le même que celui de "
+"l'export)"
+
+#. module: pattern_import_export
+#: model:ir.ui.menu,name:pattern_import_export.patterns_menu
+msgid "Patterns"
+msgstr "Patterns"
+
+#. module: pattern_import_export
+#: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_chunk__state__pending
+#: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_file__state__pending
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
+msgid "Pending"
+msgstr "En attente"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__process_multi
+msgid "Process Multi"
+msgstr "Traitement parallèle"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__progress
+msgid "Progress"
+msgstr "Progression"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__purge_one2many
+msgid "Purge One2Many"
+msgstr "Purger les One2many"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_file_view_form
+msgid "Re-launch Import"
+msgstr "Relancer l'import"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__record_ids
+msgid "Record"
+msgstr "Enregistrement"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_file_view_form
+msgid "Refresh"
+msgstr "Actualiser"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__related_model_id
+msgid "Related model"
+msgstr "Modèle lié"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__required_fields
+msgid "Required Fields"
+msgstr "Champs obligatoires"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__resource
+msgid "Resource"
+msgstr "Ressource"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__res_field
+msgid "Resource Field"
+msgstr "Champ ressource"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__res_id
+msgid "Resource ID"
+msgstr "ID ressource"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__res_model
+msgid "Resource Model"
+msgstr "Modèle de la ressource"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__res_name
+msgid "Resource Name"
+msgstr "Nom de la ressource"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__result_info
+msgid "Result Info"
+msgstr "Résultat"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__start_idx
+msgid "Start Idx"
+msgstr "Ligne de début"
+
+#. module: pattern_import_export
+#: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_chunk__state__started
+msgid "Started"
+msgstr "Commencé"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__state
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__state
+msgid "State"
+msgstr "État"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__stop_idx
+msgid "Stop Idx"
+msgstr "Ligne de fin"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__store_fname
+msgid "Stored Filename"
+msgstr "Nom du fichier enregistré"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__sub_pattern_config_id
+msgid "Sub Pattern Config"
+msgstr "Sous-pattern"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,help:pattern_import_export.field_ir_exports_line__sub_pattern_config_id
+msgid "Sub-pattern used to export O2M fields"
+msgstr "Sous-pattern utilisé pour exporter les champs O2M"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
+msgid "Success"
+msgstr "Succès"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__tab_filter_id
+msgid "Tab Filter"
+msgstr "Filtre de l'onglet"
+
+#. module: pattern_import_export
+#: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_config__header_format__technical
+msgid "Technical"
+msgstr "Technique"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/ir_exports_line.py:0
+msgid "The field %(field)s is empty for the line %(line)s"
+msgstr "Le champ %(field)s est vide pour la ligne %(line)s"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/base.py:0
+msgid "Too many %(model)s found for the key/value : %(values)s"
+msgstr "Trop de %(model)s trouvés pour la clé/valeur : %(values)s"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__type
+msgid "Type"
+msgstr "Type"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__url
+msgid "Url"
+msgstr "Url"
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/pattern_file.py:0
+msgid "View Job"
+msgstr "Voir la tâche"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__voice_ids
+msgid "Voice"
+msgstr "Voix"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,help:pattern_import_export.field_pattern_config__purge_one2many
+msgid ""
+"When importing One2many relation like the line of 'sale order line'\n"
+"or contacts of partner. Tick this option if you want to remove\n"
+"record that are not present in you file"
+msgstr ""
+"Lors de l'import de relations One2many comme les lignes de commande\n"
+"ou les contacts d'un partenaire, cochez cette option pour supprimer\n"
+"les enregistrements absents de votre fichier"
+
+#. module: pattern_import_export
+#: model:ir.model.fields,help:pattern_import_export.field_pattern_file__type
+msgid ""
+"You can either upload a file from your computer or copy/paste an internet "
+"link to your file."
+msgstr ""
+"Vous pouvez soit charger un fichier depuis votre ordinateur, soit "
+"copier/coller une adresse internet qui y renvoie."
+
+#. module: pattern_import_export
+#: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_file__kind__export
+msgid "export"
+msgstr "export"
+
+#. module: pattern_import_export
+#: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_file__kind__import
+msgid "import"
+msgstr "import"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_file_view_form
+msgid "pattern_file_form"
+msgstr "pattern_file_form"
+
+#. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.format_message
+msgid "type"
+msgstr "type"

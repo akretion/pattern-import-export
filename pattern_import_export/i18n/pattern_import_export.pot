@@ -4,8 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-11 10:32+0000\n"
+"PO-Revision-Date: 2026-10-11 10:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,27 +21,38 @@ msgid "# Occurence"
 msgstr ""
 
 #. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/pattern_file.py:0
+msgid "%(kind)s job has failed. <br/>For more details: %(details)s"
+msgstr ""
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/pattern_file.py:0
+msgid "%(kind)s job has finished. <br/>For more details: %(details)s"
+msgstr ""
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/ir_fields.py:0
+msgid ""
+"%(model)s No matching record found for %(domain)s in field '%(field_name)s'"
+msgstr ""
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/ir_fields.py:0
+msgid ""
+"%(model)s Too many records found for %(domain)s in field '%(field_name)s'"
+msgstr ""
+
+#. module: pattern_import_export
 #: model_terms:ir.ui.view,arch_db:pattern_import_export.view_export_with_pattern_wizard
 msgid ""
-"<span attrs=\"{'invisible': [('no_export_pattern', '=', False)]}\" colspan=\"2\">\n"
+"<span invisible=\"not no_export_pattern\" colspan=\"2\">\n"
 "                        There is no export pattern for this object !<br/>\n"
 "                        Please go to the menu .... and create one.\n"
 "                    </span>"
-msgstr ""
-
-#. module: pattern_import_export
-#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
-msgid "<span class=\"o_stat_text\">Fail</span>"
-msgstr ""
-
-#. module: pattern_import_export
-#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
-msgid "<span class=\"o_stat_text\">Pending</span>"
-msgstr ""
-
-#. module: pattern_import_export
-#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
-msgid "<span class=\"o_stat_text\">Success</span>"
 msgstr ""
 
 #. module: pattern_import_export
@@ -109,7 +122,6 @@ msgstr ""
 #. module: pattern_import_export
 #: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__chunk_ids
 #: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_chunk_view_form
-#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_chunk_view_tree
 #: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_file_view_form
 msgid "Chunk"
 msgstr ""
@@ -217,11 +229,6 @@ msgstr ""
 #. module: pattern_import_export
 #: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard__display_name
 #: model:ir.model.fields,field_description:pattern_import_export.field_import_pattern_wizard__display_name
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_actions_actions__display_name
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_attachment__display_name
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports__display_name
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__display_name
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_fields_converter__display_name
 #: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__display_name
 #: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__display_name
 #: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__display_name
@@ -235,27 +242,17 @@ msgid "Done"
 msgstr ""
 
 #. module: pattern_import_export
+#. odoo-python
 #: code:addons/pattern_import_export/models/pattern_file.py:0
-#, python-format
 msgid "Download"
 msgstr ""
 
 #. module: pattern_import_export
-#: model:ir.filters,name:pattern_import_export.demo_filter_countries_2
-msgid "European countries"
-msgstr ""
-
-#. module: pattern_import_export
+#. odoo-python
 #: code:addons/pattern_import_export/models/pattern_file.py:0
 #: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__export_id
 #: model_terms:ir.ui.view,arch_db:pattern_import_export.view_export_with_pattern_wizard
-#, python-format
 msgid "Export"
-msgstr ""
-
-#. module: pattern_import_export
-#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
-msgid "Export Fields"
 msgstr ""
 
 #. module: pattern_import_export
@@ -304,19 +301,24 @@ msgid "Exports Line"
 msgstr ""
 
 #. module: pattern_import_export
-#: code:addons/pattern_import_export/models/ir_fields.py:0
-#, python-format
-msgid ""
-"Fail to process field '%%(field)s'.\n"
-"No value found for model '%s' with the field '%s' and the value '%s'"
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
+msgid "Fail"
 msgstr ""
 
 #. module: pattern_import_export
+#. odoo-python
 #: code:addons/pattern_import_export/models/ir_fields.py:0
-#, python-format
 msgid ""
 "Fail to process field '%%(field)s'.\n"
-"Too many records found for '%s' with the field '%s' and the value '%s'"
+"No value found for model '%(model)s' with the field '%(subfield)s' and the value '%(value)s'"
+msgstr ""
+
+#. module: pattern_import_export
+#. odoo-python
+#: code:addons/pattern_import_export/models/ir_fields.py:0
+msgid ""
+"Fail to process field '%%(field)s'.\n"
+"Too many records found for '%(model)s' with the field '%(subfield)s' and the value '%(value)s'"
 msgstr ""
 
 #. module: pattern_import_export
@@ -326,8 +328,8 @@ msgid "Failed"
 msgstr ""
 
 #. module: pattern_import_export
+#. odoo-python
 #: code:addons/pattern_import_export/models/pattern_file.py:0
-#, python-format
 msgid "Failed to create the chunk: %s"
 msgstr ""
 
@@ -372,8 +374,8 @@ msgid "Generate Pattern"
 msgstr ""
 
 #. module: pattern_import_export
+#. odoo-python
 #: code:addons/pattern_import_export/wizard/export_with_pattern.py:0
-#, python-format
 msgid ""
 "Generate export '{model}' with export pattern '{export_name}' using format "
 "{format}"
@@ -392,11 +394,6 @@ msgstr ""
 #. module: pattern_import_export
 #: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard__id
 #: model:ir.model.fields,field_description:pattern_import_export.field_import_pattern_wizard__id
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_actions_actions__id
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_attachment__id
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports__id
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__id
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_fields_converter__id
 #: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__id
 #: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__id
 #: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__id
@@ -416,11 +413,6 @@ msgid ""
 msgstr ""
 
 #. module: pattern_import_export
-#: model:ir.filters,name:pattern_import_export.demo_filter_companies
-msgid "Ignore one"
-msgstr ""
-
-#. module: pattern_import_export
 #: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__image_height
 msgid "Image Height"
 msgstr ""
@@ -436,10 +428,10 @@ msgid "Image Width"
 msgstr ""
 
 #. module: pattern_import_export
+#. odoo-python
 #: code:addons/pattern_import_export/models/pattern_file.py:0
 #: model_terms:ir.ui.view,arch_db:pattern_import_export.import_pattern_wizard_form_view
 #: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
-#, python-format
 msgid "Import"
 msgstr ""
 
@@ -485,8 +477,8 @@ msgid "Info"
 msgstr ""
 
 #. module: pattern_import_export
-#: code:addons/pattern_import_export/models/patch.py:0
-#, python-format
+#. odoo-python
+#: code:addons/pattern_import_export/models/base.py:0
 msgid "Invalid database identifier '%s'"
 msgstr ""
 
@@ -523,20 +515,6 @@ msgstr ""
 #. module: pattern_import_export
 #: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__last_field_id
 msgid "Last Field"
-msgstr ""
-
-#. module: pattern_import_export
-#: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard____last_update
-#: model:ir.model.fields,field_description:pattern_import_export.field_import_pattern_wizard____last_update
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_actions_actions____last_update
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_attachment____last_update
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports____last_update
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line____last_update
-#: model:ir.model.fields,field_description:pattern_import_export.field_ir_fields_converter____last_update
-#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk____last_update
-#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config____last_update
-#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: pattern_import_export
@@ -616,6 +594,11 @@ msgid "Nbr Success"
 msgstr ""
 
 #. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_file_view_form
+msgid "New Import"
+msgstr ""
+
+#. module: pattern_import_export
 #: model:ir.model.fields,field_description:pattern_import_export.field_export_pattern_wizard__no_export_pattern
 msgid "No Export Pattern"
 msgstr ""
@@ -628,11 +611,11 @@ msgid ""
 msgstr ""
 
 #. module: pattern_import_export
+#. odoo-python
 #: code:addons/pattern_import_export/models/ir_exports_line.py:0
-#, python-format
 msgid ""
 "Number of occurence for Many2many or One2many fields should be greater or equals to 1.\n"
-"The line {} have an invalid number of occurence:\n"
+"The line %(name)s have an invalid number of occurence:\n"
 msgstr ""
 
 #. module: pattern_import_export
@@ -654,7 +637,6 @@ msgid "Pattern Config"
 msgstr ""
 
 #. module: pattern_import_export
-#: model:ir.model.fields,field_description:pattern_import_export.field_attachment_queue__pattern_file_ids
 #: model:ir.model.fields,field_description:pattern_import_export.field_ir_attachment__pattern_file_ids
 #: model:ir.model.fields,field_description:pattern_import_export.field_pattern_chunk__pattern_file_id
 #: model:ir.model.fields,field_description:pattern_import_export.field_pattern_config__pattern_file_ids
@@ -693,8 +675,8 @@ msgid "Pattern file"
 msgstr ""
 
 #. module: pattern_import_export
+#. odoo-python
 #: code:addons/pattern_import_export/models/pattern_config.py:0
-#, python-format
 msgid "Pattern files"
 msgstr ""
 
@@ -729,6 +711,7 @@ msgstr ""
 #. module: pattern_import_export
 #: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_chunk__state__pending
 #: model:ir.model.fields.selection,name:pattern_import_export.selection__pattern_file__state__pending
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
 msgid "Pending"
 msgstr ""
 
@@ -839,6 +822,11 @@ msgid "Sub-pattern used to export O2M fields"
 msgstr ""
 
 #. module: pattern_import_export
+#: model_terms:ir.ui.view,arch_db:pattern_import_export.pattern_config_form_view
+msgid "Success"
+msgstr ""
+
+#. module: pattern_import_export
 #: model:ir.model.fields,field_description:pattern_import_export.field_ir_exports_line__tab_filter_id
 msgid "Tab Filter"
 msgstr ""
@@ -849,25 +837,15 @@ msgid "Technical"
 msgstr ""
 
 #. module: pattern_import_export
-#: model:ir.model.fields,help:pattern_import_export.field_pattern_file__res_model
-msgid "The database object this attachment will be attached to."
-msgstr ""
-
-#. module: pattern_import_export
+#. odoo-python
 #: code:addons/pattern_import_export/models/ir_exports_line.py:0
-#, python-format
-msgid "The field {} is empty for the line {}"
+msgid "The field %(field)s is empty for the line %(line)s"
 msgstr ""
 
 #. module: pattern_import_export
-#: model:ir.model.fields,help:pattern_import_export.field_pattern_file__res_id
-msgid "The record id this is attached to."
-msgstr ""
-
-#. module: pattern_import_export
+#. odoo-python
 #: code:addons/pattern_import_export/models/base.py:0
-#, python-format
-msgid "Too many {} found for the key/value : {}"
+msgid "Too many %(model)s found for the key/value : %(values)s"
 msgstr ""
 
 #. module: pattern_import_export
@@ -876,25 +854,19 @@ msgid "Type"
 msgstr ""
 
 #. module: pattern_import_export
-#: model:ir.filters,name:pattern_import_export.demo_filter_countries_1
-msgid "US, FR, BE"
-msgstr ""
-
-#. module: pattern_import_export
-#: code:addons/pattern_import_export/models/patch.py:0
-#, python-format
-msgid "Unknown database identifier '%s'"
-msgstr ""
-
-#. module: pattern_import_export
 #: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__url
 msgid "Url"
 msgstr ""
 
 #. module: pattern_import_export
+#. odoo-python
 #: code:addons/pattern_import_export/models/pattern_file.py:0
-#, python-format
 msgid "View Job"
+msgstr ""
+
+#. module: pattern_import_export
+#: model:ir.model.fields,field_description:pattern_import_export.field_pattern_file__voice_ids
+msgid "Voice"
 msgstr ""
 
 #. module: pattern_import_export
@@ -930,20 +902,4 @@ msgstr ""
 #. module: pattern_import_export
 #: model_terms:ir.ui.view,arch_db:pattern_import_export.format_message
 msgid "type"
-msgstr ""
-
-#. module: pattern_import_export
-#: code:addons/pattern_import_export/models/pattern_file.py:0
-#, python-format
-msgid ""
-"{} job has failed. \n"
-"For more details: {}"
-msgstr ""
-
-#. module: pattern_import_export
-#: code:addons/pattern_import_export/models/pattern_file.py:0
-#, python-format
-msgid ""
-"{} job has finished. \n"
-"For more details: {}"
 msgstr ""

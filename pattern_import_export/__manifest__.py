@@ -3,9 +3,10 @@
 {
     "name": "Pattern Import Export",
     "summary": "Pattern for import or export",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Extra Tools",
     "author": "Akretion",
+    "maintainers": ["kev-roche", "sebastienbeau"],
     "website": "https://github.com/Shopinvader/pattern-import-export",
     "license": "AGPL-3",
     "depends": [

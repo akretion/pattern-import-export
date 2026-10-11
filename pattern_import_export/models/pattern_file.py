@@ -30,6 +30,13 @@ class PatternFile(models.Model):
     chunk_ids = fields.One2many("pattern.chunk", "pattern_file_id", "Chunk")
     date_done = fields.Datetime()
 
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        default=lambda self: self.env.company.id,
+        required=False,
+        string="Company",
+    )
+
     @api.depends("chunk_ids.nbr_error", "chunk_ids.nbr_success")
     def _compute_stat(self):
         for record in self:
@@ -62,18 +69,22 @@ class PatternFile(models.Model):
         if self.state == "failed":
             self.env.user.notify_danger(
                 message=_(
-                    f"{import_or_export} job has failed. \nFor more details: {details}"
+                    "%(kind)s job has failed. <br/>For more details: %(details)s",
+                    kind=import_or_export,
+                    details=details,
                 ),
                 sticky=True,
+                html=True,
             )
         elif self.state == "done":
             self.env.user.notify_success(
                 message=_(
-                    "{} job has finished. \nFor more details: {}".format(
-                        import_or_export, details
-                    )
+                    "%(kind)s job has finished. <br/>For more details: %(details)s",
+                    kind=import_or_export,
+                    details=details,
                 ),
                 sticky=True,
+                html=True,
             )
 
     def _helper_build_details(self):
@@ -84,18 +95,9 @@ class PatternFile(models.Model):
 
     def _helper_build_link(self):
         base = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
-        web = "/web#"
-        args = [
-            "action=pattern_import_export.action_pattern_file_imports",
-            "id=" + str(self.id),
-            "model=pattern.file",
-            "menu_id="
-            + str(self.env.ref("pattern_import_export.import_export_menu_root").id),
-        ]
-        link = "<br>"
-        url = base + web + "&".join(args)
-        link += "<a href=" + url + ">" + _("View Job") + "</a>"
-        return link
+        action = f"pattern_import_export.action_pattern_file_{self.kind}s"
+        url = f"{base}/odoo/action-{action}/{self.id}"
+        return "<br/><a href=" + url + ">" + _("View Job") + "</a>"
 
     def _helper_build_content_link(self):
         base = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
@@ -124,7 +126,8 @@ class PatternFile(models.Model):
 
     def _parse_data_json(self, data):
         items = json.loads(data.decode("utf-8"))
-        yield from enumerate(items, start=1)
+        for idx, item in enumerate(items):
+            yield idx + 1, item
 
     def _prepare_chunk(self, start_idx, stop_idx, data):
         return {

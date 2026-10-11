@@ -2,7 +2,13 @@
 # @author Sébastien BEAU <sebastien.beau@akretion.com>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import logging
+
 from odoo import fields, models
+
+from odoo.addons.base_sparse_field.models.fields import Serialized
+
+_logger = logging.getLogger(__name__)
 
 
 class PatternChunk(models.Model):
@@ -16,9 +22,9 @@ class PatternChunk(models.Model):
     )
     start_idx = fields.Integer()
     stop_idx = fields.Integer()
-    data = fields.Serialized()
-    record_ids = fields.Serialized()
-    messages = fields.Serialized()
+    data = Serialized()
+    record_ids = Serialized()
+    messages = Serialized()
     result_info = fields.Html()
     nbr_error = fields.Integer()
     nbr_success = fields.Integer()
@@ -45,6 +51,7 @@ class PatternChunk(models.Model):
                 }
             )
             .env[model]
+            .with_company(self.pattern_file_id.company_id)
             .load([], self.data)
         )
         self.write(self._prepare_chunk_result(res))
@@ -68,9 +75,10 @@ class PatternChunk(models.Model):
             with cr.savepoint():
                 self.run_import()
         except Exception as e:
+            _logger.exception("Fail to process chunk %s", self.id)
             self.write(
                 {
-                    "result_info": "Fail to process chunk %s" % e,
+                    "result_info": f"Fail to process chunk {e}",
                     "nbr_error": self.nbr_item,
                     "state": "failed",
                 }

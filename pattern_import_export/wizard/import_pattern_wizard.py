@@ -30,17 +30,14 @@ class ImportPatternWizard(models.TransientModel):
         @return: dict/action
         """
         self.ensure_one()
-        pattern_file_import = (
-            self.env["pattern.file"]
-            .sudo()
-            .create(
-                {
-                    "name": self.filename,
-                    "datas": self.import_file,
-                    "kind": "import",
-                    "pattern_config_id": self.pattern_config_id.id,
-                }
-            )
+        pattern_file_import = self.env["pattern.file"].create(
+            {
+                "name": self.filename,
+                "datas": self.import_file,
+                "kind": "import",
+                "pattern_config_id": self.pattern_config_id.id,
+                "company_id": self.env.company.id,
+            }
         )
         pattern_file_import.with_delay(
             priority=self.pattern_config_id.job_priority

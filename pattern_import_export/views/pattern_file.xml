@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record id="pattern_file_view_tree" model="ir.ui.view">
         <field name="name">pattern_file_import_view_tree</field>
         <field name="model">pattern.file</field>
         <field name="arch" type="xml">
-            <tree create="false">
+            <list create="false">
                 <field name="pattern_config_id" />
                 <field name="attachment_id" />
                 <field name="create_date" />
@@ -15,7 +14,7 @@
                 <field name="nbr_error" />
                 <field name="nbr_success" />
                 <field name="info" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -37,7 +36,7 @@
                         string="Re-launch Import"
                         type="object"
                         confirm="Are you sure to reimport the current file?"
-                        attrs="{'invisible': [('kind', '!=', 'import')]}"
+                        invisible="kind != 'import'"
                     />
                     <field name="state" widget="statusbar" />
                 </header>
@@ -54,11 +53,7 @@
                         </group>
                     </group>
                     <notebook>
-                        <page
-                            name="chunk"
-                            string="Chunk"
-                            attrs="{'invisible': [('kind', '!=', 'import')]}"
-                        >
+                        <page name="chunk" string="Chunk" invisible="kind != 'import'">
                             <div>
                                 <label for="progress" />
                                 <field
@@ -78,11 +73,7 @@
                                 <field name="nbr_error" />
                                 <field name="nbr_success" />
                             </group>
-                            <field
-                                name="info"
-                                readonly="1"
-                                attrs="{'invisible': [('info', '=', False)]}"
-                            />
+                            <field name="info" readonly="1" invisible="not info" />
                             <field name="chunk_ids" nolabel="1" />
                         </page>
                     </notebook>
@@ -90,5 +81,4 @@
             </form>
         </field>
     </record>
-
 </odoo>

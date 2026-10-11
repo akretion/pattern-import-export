@@ -4,7 +4,8 @@
 
 import ast
 
-from odoo import Command, _, api, models
+from odoo import _, api, models
+from odoo.fields import Command
 from odoo.osv import expression
 
 from .common import IDENTIFIER_SUFFIX
@@ -65,32 +66,40 @@ class IrFieldsConverter(models.AbstractModel):
                 domain = expression.AND([domain, [(subfield, "=", value)]])
                 if (
                     self.env.context.get("pattern_config", {}).get("model")
-                    == field._related_comodel_name
+                    == field.comodel_name
                 ):
                     self._context["import_flush"]()
-                record = self.env[field._related_comodel_name].search(domain)
+                record = self.env[field.comodel_name].search(domain)
                 if len(record) > 1:
                     raise self._format_import_error(
                         ValueError,
                         _(
                             "Fail to process field '%%(field)s'.\n"
-                            "Too many records found for '%s' "
-                            "with the field '%s' and the value '%s'"
+                            "Too many records found for '%(model)s' "
+                            "with the field '%(subfield)s' and the value '%(value)s'"
                         ),
-                        (_(record._description), subfield, value),
+                        {
+                            "model": record._description,
+                            "subfield": subfield,
+                            "value": value,
+                        },
                     )
                 elif len(record) == 0:
                     raise self._format_import_error(
                         ValueError,
                         _(
                             "Fail to process field '%%(field)s'.\n"
-                            "No value found for model '%s' with the field '%s' "
-                            "and the value '%s'"
+                            "No value found for model '%(model)s' with the field "
+                            "'%(subfield)s' and the value '%(value)s'"
                         ),
-                        (_(record._description), subfield, value),
+                        {
+                            "model": record._description,
+                            "subfield": subfield,
+                            "value": value,
+                        },
                     )
             else:
-                record = self.env[field._related_comodel_name].browse()
+                record = self.env[field.comodel_name].browse()
             return record.id, subfield, []
 
     @api.model
@@ -106,7 +115,7 @@ class IrFieldsConverter(models.AbstractModel):
                 warnings.extend(ws)
 
         if self._context.get("update_many2many"):
-            return [Command.link(id) for id in ids], warnings
+            return [Command.link(rec_id) for rec_id in ids], warnings
         else:
             return [Command.set(ids)], warnings
 
@@ -128,20 +137,34 @@ class IrFieldsConverter(models.AbstractModel):
                 return super()._str_to_many2one(model, field, one_value)
             else:
                 domain = model._convert_value_to_domain(None, value)
-                tosearch = field._related_comodel_name
+                tosearch = field.comodel_name
                 record = self.env[tosearch].search(domain)
                 if len(record) > 1:
                     # TODO improve here
                     raise self._format_import_error(
                         ValueError,
-                        _("%s Too many records found for %s in field '%s'"),
-                        (_(record._description), domain, tosearch),
+                        _(
+                            "%(model)s Too many records found for %(domain)s "
+                            "in field '%(field_name)s'"
+                        ),
+                        {
+                            "model": record._description,
+                            "domain": domain,
+                            "field_name": tosearch,
+                        },
                     )
                 if len(record) == 0:
                     raise self._format_import_error(
                         ValueError,
-                        _("%s No matching record found for %s in field '%s'"),
-                        (_(record._description), domain, tosearch),
+                        _(
+                            "%(model)s No matching record found for %(domain)s "
+                            "in field '%(field_name)s'"
+                        ),
+                        {
+                            "model": record._description,
+                            "domain": domain,
+                            "field_name": tosearch,
+                        },
                     )
 
                 # call core function to be sure not to miss something
@@ -151,7 +174,7 @@ class IrFieldsConverter(models.AbstractModel):
 
     @api.model
     def _str_to_boolean(self, model, field, value):
-        if isinstance(value, (int | float)):
+        if isinstance(value, int | float):
             return bool(value), []
         if isinstance(value, bool):
             return value, []
@@ -174,7 +197,4 @@ class IrFieldsConverter(models.AbstractModel):
             # raising an error with the split
             # see original method called by super
             records[0][".id"] = str(records[0][".id"])
-        commands, warnings = super()._str_to_one2many(model, field, records)
-        if self._context.get("pattern_config", {}).get("purge_one2many"):
-            commands.insert(0, (5, 0, 0))
-        return commands, warnings
+        return super()._str_to_one2many(model, field, records)

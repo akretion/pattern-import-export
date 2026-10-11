@@ -1,11 +1,10 @@
 # Copyright 2020 Akretion France (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestConvertID(SavepointCase):
+class TestConvertID(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -14,13 +13,14 @@ class TestConvertID(SavepointCase):
     def _patch_search(self, model_name):
         self.search_domain = []
         search_domain = self.search_domain
+        model_class = type(self.env[model_name])
+        origin = model_class._search
 
-        @api.model
-        def _search(self, domain, **kwargs):
+        def _search(self, domain, *args, **kwargs):
             search_domain.append(domain)
-            return _search.origin(self, domain, **kwargs)
+            return origin(self, domain, *args, **kwargs)
 
-        self.env[model_name]._patch_method("_search", _search)
+        self.patch(model_class, "_search", _search)
 
     def test_list_domain_is_injected(self):
         self.env["res.partner"].create({"name": "foo"})

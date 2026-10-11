@@ -15,23 +15,15 @@ class IrActions(models.Model):
         @return: dict
         """
         res = super().get_bindings(model_name)
-        xml_ids = [
+        if not self.env.user.has_group("pattern_import_export.group_pattern_user"):
+            return res
+        actions = res.setdefault("action", [])
+        action_ids = [action.get("id") for action in actions]
+        for xml_id in [
             "pattern_import_export.action_export_with_pattern",
             "pattern_import_export.import_pattern_wizard_action",
-        ]
-        # the get_bindings method is cached by the orm this meant
-        # when we append the action in res["action"] it's added in the dict
-        # and as the dict is mutuable the value is cached is updated
-        # so we need to be careful to not add it again and again
-        res.setdefault("action", [])
-        if self.env.user.has_group("pattern_import_export.group_pattern_user"):
-            for xml_id in xml_ids:
-                action_id = self.env["ir.model.data"].sudo()._xmlid_to_res_id(xml_id)
-                if not action_id:
-                    continue
-                if action_id not in [act.get("id") for act in res["action"]]:
-                    action = self.env["ir.actions.actions"].sudo().browse(action_id)
-                    res["action"].append(
-                        {"id": action.id, "name": action.name, "type": action.type}
-                    )
+        ]:
+            action = self.env.ref(xml_id).sudo()
+            if action.id not in action_ids:
+                actions.append(action.read(["name", "binding_view_types"])[0])
         return res

@@ -1,10 +1,10 @@
 # Copyright 2020 Akretion France (http://www.akretion.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from odoo import exceptions
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestPatternConstraint(SavepointCase):
+class TestPatternConstraint(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -70,5 +70,6 @@ class TestPatternConstraint(SavepointCase):
                 {"export_id": self.pattern_config.export_id.id, "name": "category_id"}
             )
         self.assertEqual(
-            em.exception.name, "The field field2_id is empty for the line category_id"
+            em.exception.args[0],
+            "The field field2_id is empty for the line category_id",
         )
