@@ -7,7 +7,7 @@
     "category": "Extra Tools",
     "author": "Akretion",
     "maintainers": ["kev-roche", "sebastienbeau"],
-    "https://github.com/akretion/pattern-import-export",
+    "website": "https://github.com/akretion/pattern-import-export",
     "license": "AGPL-3",
     "depends": [
         "jsonifier",
