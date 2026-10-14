@@ -51,8 +51,8 @@ class Base(models.AbstractModel):
     def _load_records_create(self, values):
         return super()._load_records_create(copy.deepcopy(values))
 
-    def _load_records(self, data_list, update=False):
-        records = super()._load_records(data_list, update=update)
+    def _load_records(self, data_list, update=False, **kwargs):
+        records = super()._load_records(data_list, update=update, **kwargs)
         if self._context.get("pattern_config"):
             self._context["pattern_config"]["record_ids"] += records.ids
         return records
